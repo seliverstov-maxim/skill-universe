@@ -26,7 +26,7 @@ manifest=$(jq -n --arg harnesses "${1#--harness=}" '
                 error("Unknown harness: " + .)
             end
         ) | from_entries),
-        upgrade: {url: null, branch: null},
+        upgrade: {url: "https://github.com/seliverstov-maxim/skill-universe.git", branch: "main"},
         skills: {}
     }
 ')

@@ -16,7 +16,7 @@
 Выполнить команду:
 
 ```sh
-curl -fsSL "https://raw.githubusercontent.com/seliverstov-maxim/skill-universe/HEAD/install.sh" | sh
+curl -fsSL "https://raw.githubusercontent.com/seliverstov-maxim/skill-universe/main/install.sh" | sh
 ```
 
 Установщик клонирует тул в `~/.skill-universe/tool/` и создаёт симлинк команды в `~/.local/bin/`. Содержимое установщика:
@@ -40,7 +40,7 @@ printf 'Add to your shell profile: export PATH="$HOME/.local/bin:$PATH"\n'
 skill-universe --version
 ```
 
-Для `upgrade` указать URL репозитория тула и нужную ветку в объекте `upgrade` манифеста.
+`init` сразу задаёт источник самообновления: `https://github.com/seliverstov-maxim/skill-universe.git`, ветка `main`. Настраивать его вручную для `upgrade` не нужно.
 
 ## Использование
 
