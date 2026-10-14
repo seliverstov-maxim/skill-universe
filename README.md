@@ -80,5 +80,3 @@ skill-universe --help
 ```
 
 Манифест находится в `~/.skill-universe/manifest.json`, клоны — в `~/.skill-universe/repos/`. Директории харнесов и Git-источник для `upgrade` настраиваются в манифесте.
-
-Подробные требования, поведение команд и формат манифеста — в [docs/requirements.md](docs/requirements.md).
