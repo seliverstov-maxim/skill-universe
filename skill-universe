@@ -1,0 +1,25 @@
+#!/bin/sh
+set -eu
+
+script="$0"
+if [ -L "$script" ]; then
+    script=$(readlink "$script")
+fi
+
+case "${1-}" in
+    init|install|list|rename|update|remove|upgrade)
+        command="$1"
+        shift
+        exec sh "$(dirname "$script")/commands/$command.sh" "$@"
+        ;;
+    --help)
+        exec sh "$(dirname "$script")/commands/help.sh"
+        ;;
+    --version)
+        exec sh "$(dirname "$script")/commands/version.sh"
+        ;;
+    *)
+        printf 'Usage: skill-universe --help\n' >&2
+        exit 1
+        ;;
+esac
