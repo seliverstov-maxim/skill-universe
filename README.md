@@ -16,7 +16,7 @@ Dependencies: a Unix shell, Git, and `jq`. Target platforms for the PoC are macO
 Run:
 
 ```sh
-curl -fsSL "https://raw.githubusercontent.com/seliverstov-maxim/skill-universe/main/install.sh" | sh
+curl -fsSL https://seliverstov-maxim.github.io/skill-universe/install.sh | sh
 ```
 
 The installer clones the tool into `~/.skill-universe/tool/` and creates a command symlink in `~/.local/bin/`. Installer contents:
