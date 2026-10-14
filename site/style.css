@@ -6,3 +6,5 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
 
 .capabilities{margin:32px 0 0;padding-top:24px;border-top:1px solid var(--line);font-size:12px;line-height:1.9;color:var(--muted)}
+
+h1.descriptive-title{font-size:clamp(32px,3.5vw,50px);letter-spacing:-1.8px;line-height:1.16}h1.descriptive-title .underline{height:13px;bottom:3px}
