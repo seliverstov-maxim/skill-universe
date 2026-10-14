@@ -1,25 +1,25 @@
 # Skill Universe
 
-Небольшой Unix CLI для установки и обновления скиллов из Git-репозиториев в Codex и Claude.
+A small Unix CLI for installing and updating skills from Git repositories in Codex and Claude.
 
-## Зачем
+## Why
 
-- Простой инструмент доставки, который можно прочитать и проверить целиком.
-- Без телеметрии, рейтингов, внешних каталогов и фоновых сетевых обращений.
-- Обычный Git для получения скиллов и обновления самого тула.
-- Один checkout для установки и локальной разработки скиллов через симлинки.
+- A simple distribution tool you can read and review in full.
+- No telemetry, rankings, external catalogs, or background network requests.
+- Plain Git for fetching skills and updating the tool itself.
+- One checkout for installation and local skill development through symlinks.
 
-## Установка
+## Installation
 
-Зависимости: Unix shell, Git и `jq`. Целевые платформы PoC — macOS и Linux.
+Dependencies: a Unix shell, Git, and `jq`. Target platforms for the PoC are macOS and Linux.
 
-Выполнить команду:
+Run:
 
 ```sh
 curl -fsSL "https://raw.githubusercontent.com/seliverstov-maxim/skill-universe/main/install.sh" | sh
 ```
 
-Установщик клонирует тул в `~/.skill-universe/tool/` и создаёт симлинк команды в `~/.local/bin/`. Содержимое установщика:
+The installer clones the tool into `~/.skill-universe/tool/` and creates a command symlink in `~/.local/bin/`. Installer contents:
 
 ```sh
 #!/bin/sh
@@ -34,32 +34,32 @@ printf 'Installed: %s/.local/bin/skill-universe\n' "$HOME"
 printf 'Add to your shell profile: export PATH="$HOME/.local/bin:$PATH"\n'
 ```
 
-Проверить доступность команды:
+Check that the command is available:
 
 ```sh
 skill-universe --version
 ```
 
-`init` сразу задаёт источник самообновления: `https://github.com/seliverstov-maxim/skill-universe.git`, ветка `main`. Настраивать его вручную для `upgrade` не нужно.
+`init` sets the self-update source to `https://github.com/seliverstov-maxim/skill-universe.git`, branch `main`. No manual setup is needed for `upgrade`.
 
-## Использование
+## Usage
 
-Создать конфигурацию выбранных харнесов:
+Configure your chosen harnesses:
 
 ```sh
 skill-universe init --harness=codex,claude
 ```
 
-Установить все скиллы репозитория либо выбрать один, ветку и алиас:
+Install all skills from a repository, or select a skill, branch, and alias:
 
 ```sh
 skill-universe install <repo-url>
 skill-universe install <repo-url> --branch=<branch> --skill=<skill-name> --alias=<alias>
 ```
 
-Источник должен содержать `skills/<skill-name>/SKILL.md`. Без флагов используются default branch и все скиллы; алиасы совпадают с именами директорий.
+The source repository must contain `skills/<skill-name>/SKILL.md`. Without flags, all skills from the default branch are installed, using directory names as aliases.
 
-Управлять установленными скиллами:
+Manage installed skills:
 
 ```sh
 skill-universe list
@@ -69,9 +69,9 @@ skill-universe update all
 skill-universe remove <alias>
 ```
 
-При общем checkout обновление одного скилла затрагивает все связанные с ним скиллы. Локальные изменения допустимы; если Git не допускает fast-forward, конфликт разрешает пользователь.
+When skills share a checkout, updating one affects all skills linked to it. Local changes are allowed; if Git cannot fast-forward, you resolve the conflict.
 
-Обновить тул и посмотреть справку:
+Update the tool and view help:
 
 ```sh
 skill-universe upgrade
@@ -79,4 +79,4 @@ skill-universe --version
 skill-universe --help
 ```
 
-Манифест находится в `~/.skill-universe/manifest.json`, клоны — в `~/.skill-universe/repos/`. Директории харнесов и Git-источник для `upgrade` настраиваются в манифесте.
+The manifest lives at `~/.skill-universe/manifest.json`; clones live in `~/.skill-universe/repos/`. Harness directories and the Git source for `upgrade` are configurable in the manifest.

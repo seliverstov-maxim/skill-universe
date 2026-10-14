@@ -1,79 +1,79 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Skill Universe — Git CLI для скиллов Codex и Claude</title>
-  <meta name="description" content="Простой Unix CLI для установки и обновления AI-скиллов в Codex и Claude. Небольшой открытый код, без телеметрии и фоновых запросов. macOS и Linux.">
+  <title>Skill Universe — Git CLI for Codex and Claude skills</title>
+  <meta name="description" content="A simple Unix CLI for installing and updating AI skills in Codex and Claude. Small, open source, with no telemetry or background requests. macOS and Linux.">
   <meta name="theme-color" content="#121816">
   <link rel="canonical" href="https://seliverstov-maxim.github.io/skill-universe/">
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="ru_RU">
-  <meta property="og:title" content="Skill Universe — минималистичный инструмент для дистрибуции скиллов">
-  <meta property="og:description" content="Устанавливайте и обновляйте скиллы для Codex и Claude прямо из Git-репозиториев. Без центрального каталога и телеметрии.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Skill Universe — a minimal tool for skill distribution">
+  <meta property="og:description" content="Install and update skills for Codex and Claude directly from Git repositories. No central catalog. No telemetry.">
   <meta property="og:url" content="https://seliverstov-maxim.github.io/skill-universe/">
   <meta name="twitter:card" content="summary">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Skill Universe","description":"Unix CLI для установки и обновления скиллов из Git-репозиториев в Codex и Claude.","codeRepository":"https://github.com/seliverstov-maxim/skill-universe","url":"https://seliverstov-maxim.github.io/skill-universe/","programmingLanguage":"Shell","runtimePlatform":"macOS, Linux","inLanguage":"ru"}
+  {"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Skill Universe","description":"A Unix CLI for installing and updating skills from Git repositories in Codex and Claude.","codeRepository":"https://github.com/seliverstov-maxim/skill-universe","url":"https://seliverstov-maxim.github.io/skill-universe/","programmingLanguage":"Shell","runtimePlatform":"macOS, Linux","inLanguage":"en"}
   </script>
 </head>
 <body>
-<a class="skip" href="#main">К содержимому</a>
+<a class="skip" href="#main">Skip to content</a>
 <header class="header wrap">
-  <a class="brand" href="#" aria-label="Skill Universe — начало"><span class="mark" aria-hidden="true">✳</span> skill-universe<span class="cursor" aria-hidden="true">_</span></a>
-  <nav aria-label="Навигация"><a href="#install">Установка</a><a href="#usage">Команды</a><a class="repo-link" href="https://github.com/seliverstov-maxim/skill-universe">GitHub <span aria-hidden="true">↗</span></a></nav>
+  <a class="brand" href="#" aria-label="Skill Universe — home"><span class="mark" aria-hidden="true">✳</span> skill-universe<span class="cursor" aria-hidden="true">_</span></a>
+  <nav aria-label="Navigation"><a href="#install">Install</a><a href="#usage">Commands</a><a class="repo-link" href="https://github.com/seliverstov-maxim/skill-universe">GitHub <span aria-hidden="true">↗</span></a></nav>
 </header>
 <main id="main">
   <section class="hero wrap" aria-labelledby="title">
     <div class="hero-copy">
       <p class="eyebrow"><span class="status-dot"></span> UNIX CLI / CODEX + CLAUDE</p>
-      <h1 id="title" class="descriptive-title">Минималистичный инструмент для <span class="git-word">дистрибуции<span class="underline" aria-hidden="true"></span></span> скиллов</h1>
-      <p class="lead">Устанавливайте и обновляйте скиллы для Codex и Claude прямо из Git-репозиториев. Без центрального каталога и телеметрии.</p>
-      <div class="actions"><a class="button primary" href="#install">Начать установку <span aria-hidden="true">↓</span></a><a class="text-link" href="https://github.com/seliverstov-maxim/skill-universe">Посмотреть исходники ↗</a></div>
+      <h1 id="title" class="descriptive-title">A minimal tool for <span class="git-word">skill<span class="underline" aria-hidden="true"></span></span> distribution</h1>
+      <p class="lead">Install and update skills for Codex and Claude directly from Git repositories. No central catalog. No telemetry.</p>
+      <div class="actions"><a class="button primary" href="#install">Get started <span aria-hidden="true">↓</span></a><a class="text-link" href="https://github.com/seliverstov-maxim/skill-universe">View source ↗</a></div>
       <p class="platforms">macOS &amp; Linux <span>/</span> shell + git + jq</p>
     </div>
-    <div class="terminal hero-terminal" aria-label="Пример работы Skill Universe">
+    <div class="terminal hero-terminal" aria-label="Skill Universe usage example">
       <div class="terminal-bar"><span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>~/workspace</span><span>sh</span></div>
       <div class="terminal-body">
-        <p class="terminal-note"># Один раз настроить харнесы</p>
+        <p class="terminal-note"># Set up your harnesses once</p>
         <pre><code><span class="prompt">$</span> skill-universe init --harness=codex,claude</code></pre>
-        <p class="terminal-note"># Установить скиллы из вашей репы</p>
+        <p class="terminal-note"># Install skills from your repository</p>
         <pre><code><span class="prompt">$</span> skill-universe install &lt;repo-url&gt;</code></pre>
-        <p class="terminal-note"># Получить обновления</p>
+        <p class="terminal-note"># Get updates</p>
         <pre><code><span class="prompt">$</span> skill-universe update all</code></pre>
       </div>
-      <div class="terminal-footer"><span class="status-dot"></span> Обычный Git. Явные команды.</div>
+      <div class="terminal-footer"><span class="status-dot"></span> Plain Git. Explicit commands.</div>
     </div>
   </section>
-  <div class="principles wrap" aria-label="Принципы инструмента"><span>Без телеметрии</span><span>Без внешних каталогов</span><span>Без рейтингов</span><span>Без фоновых запросов</span></div>
+  <div class="principles wrap" aria-label="Tool principles"><span>No telemetry</span><span>No external catalogs</span><span>No rankings</span><span>No background requests</span></div>
   <section class="why wrap section" aria-labelledby="why-title">
-    <div class="section-intro"><p class="eyebrow">01 / МЕНЬШЕ МАГИИ</p><h2 id="why-title">Небольшой тул.<br>Понятные действия.</h2><p>Узкая задача, открытые исходники и никаких фоновых сетевых обращений. Всё, что нужно для доставки скиллов.</p></div>
+    <div class="section-intro"><p class="eyebrow">01 / LESS MAGIC</p><h2 id="why-title">Small tool.<br>Clear actions.</h2><p>A focused tool with open source code and no background network requests. Everything you need to distribute skills.</p></div>
     <div class="reasons">
-      <article><span class="reason-symbol" aria-hidden="true">{ }</span><div><h3>Пара сотен строк кода</h3><p>Небольшой тул, который можно прочитать и проверить целиком.</p></div></article>
-      <article><span class="reason-symbol" aria-hidden="true">↓ ↑</span><div><h3>Без скрытой активности</h3><p>Без телеметрии, рейтингов и внешних каталогов. Сетевые обращения — при выполнении ваших команд через обычный Git.</p></div></article>
-      <article><span class="reason-symbol" aria-hidden="true">↗</span><div><h3>Устанавливайте и дорабатывайте</h3><p>Получайте обновления и редактируйте установленные скиллы локально. Один инструмент для доставки и дальнейшей работы.</p></div></article>
+      <article><span class="reason-symbol" aria-hidden="true">{ }</span><div><h3>A couple hundred lines of code</h3><p>A small tool you can read and review in full.</p></div></article>
+      <article><span class="reason-symbol" aria-hidden="true">↓ ↑</span><div><h3>No hidden activity</h3><p>No telemetry, rankings, or external catalogs. Network requests happen when you run commands, through plain Git.</p></div></article>
+      <article><span class="reason-symbol" aria-hidden="true">↗</span><div><h3>Install and develop</h3><p>Get updates and edit installed skills locally. One tool for distribution and ongoing development.</p></div></article>
     </div>
   </section>
   <section id="install" class="install-section section" aria-labelledby="install-title">
     <div class="wrap">
-      <div class="section-heading"><div><p class="eyebrow">02 / НАЧАТЬ</p><h2 id="install-title">Одна команда установки.</h2></div><p>Нужны Unix shell, Git и <code>jq</code>.<br>Поддерживаются macOS и Linux.</p></div>
-      <div class="install-command"><span class="prompt" aria-hidden="true">$</span><pre><code id="install-code">curl -fsSL "https://raw.githubusercontent.com/seliverstov-maxim/skill-universe/main/install.sh" | sh</code></pre><button type="button" id="copy" hidden>Копировать</button></div>
-      <div class="verify"><span>Проверить установку</span><code>skill-universe --version</code></div>
+      <div class="section-heading"><div><p class="eyebrow">02 / GET STARTED</p><h2 id="install-title">One command to install.</h2></div><p>Requires a Unix shell, Git, and <code>jq</code>.<br>Supports macOS and Linux.</p></div>
+      <div class="install-command"><span class="prompt" aria-hidden="true">$</span><pre><code id="install-code">curl -fsSL "https://raw.githubusercontent.com/seliverstov-maxim/skill-universe/main/install.sh" | sh</code></pre><button type="button" id="copy" hidden>Copy</button></div>
+      <div class="verify"><span>Check your installation</span><code>skill-universe --version</code></div>
     </div>
   </section>
   <section id="usage" class="wrap section usage" aria-labelledby="usage-title">
-    <div class="section-heading"><div><p class="eyebrow">03 / ЧТО УМЕЕТ</p><h2 id="usage-title">Подключить. Установить. Обновить.</h2></div><p>Codex и Claude.<br>Ваши репозитории и ваши скиллы.</p></div>
+    <div class="section-heading"><div><p class="eyebrow">03 / WHAT IT DOES</p><h2 id="usage-title">Configure. Install. Update.</h2></div><p>Codex and Claude.<br>Your repositories. Your skills.</p></div>
     <div class="steps">
-      <article class="step"><div class="step-title"><span class="step-number">01</span><h3>Выберите харнесы</h3></div><p>Работайте с Codex, Claude или обоими.</p><pre><code>skill-universe init --harness=codex,claude</code></pre></article>
-      <article class="step"><div class="step-title"><span class="step-number">02</span><h3>Установите скиллы</h3></div><p>Добавьте ссылку на Git-репозиторий.</p><pre><code>skill-universe install &lt;repo-url&gt;</code></pre></article>
-      <article class="step"><div class="step-title"><span class="step-number">03</span><h3>Получайте обновления</h3></div><p>Обновите все установленные скиллы одной командой.</p><pre><code>skill-universe update all</code></pre></article>
+      <article class="step"><div class="step-title"><span class="step-number">01</span><h3>Choose your harnesses</h3></div><p>Use Codex, Claude, or both.</p><pre><code>skill-universe init --harness=codex,claude</code></pre></article>
+      <article class="step"><div class="step-title"><span class="step-number">02</span><h3>Install skills</h3></div><p>Add a Git repository URL.</p><pre><code>skill-universe install &lt;repo-url&gt;</code></pre></article>
+      <article class="step"><div class="step-title"><span class="step-number">03</span><h3>Get updates</h3></div><p>Update all installed skills with one command.</p><pre><code>skill-universe update all</code></pre></article>
     </div>
-    <p class="capabilities">Также: выбор ветки и отдельного скилла, собственные алиасы, переименование, удаление и обновление самого тула.</p>
+    <p class="capabilities">Also supports branch and individual skill selection, custom aliases, renaming, removal, and updating the tool itself.</p>
   </section>
 </main>
-<footer class="footer wrap"><a class="brand" href="#"><span class="mark" aria-hidden="true">✳</span> skill-universe</a><p>Небольшой Unix CLI. Обычный Git.</p><a href="https://github.com/seliverstov-maxim/skill-universe">GitHub ↗</a></footer>
+<footer class="footer wrap"><a class="brand" href="#"><span class="mark" aria-hidden="true">✳</span> skill-universe</a><p>Small Unix CLI. Plain Git.</p><a href="https://github.com/seliverstov-maxim/skill-universe">GitHub ↗</a></footer>
 <script>
 const button = document.getElementById('copy');
 if (navigator.clipboard && window.isSecureContext) {
@@ -81,9 +81,9 @@ if (navigator.clipboard && window.isSecureContext) {
   button.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(document.getElementById('install-code').textContent);
-      button.textContent = 'Скопировано ✓';
+      button.textContent = 'Copied ✓';
     } catch {
-      button.textContent = 'Выделите команду вручную';
+      button.textContent = 'Select the command manually';
     }
   });
 }
