@@ -10,6 +10,8 @@ A small Unix CLI for installing and updating skills and rules from Git repositor
 [![Gitleaks](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/gitleaks.yml)
 [![zizmor](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml)
 
+[![ClamAV](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/clamav.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/clamav.yml)
+
 ## Why
 
 - A simple distribution tool you can read and review in full.
