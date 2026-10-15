@@ -9,4 +9,4 @@
 
 h1.descriptive-title{font-size:clamp(32px,3.5vw,50px);letter-spacing:-1.8px;line-height:1.16}h1.descriptive-title .underline{height:13px;bottom:3px}
 
-.security{padding-block:24px;border-bottom:1px solid var(--line)}.security h2{font-size:18px;letter-spacing:0;margin:0 0 12px}.security p{font-size:12px;line-height:1.7;margin:8px 0;color:var(--muted)}.security p a{text-decoration:underline;text-underline-offset:3px}.security-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.security-badges img{display:block;max-width:100%}.security .security-note{font-size:11px}
+.audit-badges{display:flex;flex-wrap:wrap;gap:8px;padding-block:20px}.audit-badges img{display:block;max-width:100%}
