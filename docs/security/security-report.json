@@ -1,188 +1,204 @@
 {
   "method": "SU-SEC-1",
   "version": 4,
-  "commit": "5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c",
-  "date": "2026-10-15T13:21:12Z",
+  "commit": "d648b523df1cba3ed000a5e952adeb3e600c8aa8",
+  "date": "2026-10-15T13:32:54Z",
   "result": "passing",
-  "environment": "Fresh complete 51-file source review. README-only revision; CLI/installer, verification fixtures and report UI byte-compared with previously observed c7f032ae6dc10859f77d87b64c7268376885f85a; generator byte-compared with 816731905859d6ef6c84467961f0f10214c6c35d. Bounded runtime observations carried forward, not rerun. Their Linux/dash/Git 2.43.0/jq 1.7 environment and limits remain explicit. Live delivery and README embedded installer rechecked. Browser/clipboard and other platforms untested.",
-  "reviewer": "Fresh Codex source reviewer isolated from previous findings, reports and implementation conversation; implementing Codex operator recorded current source equivalence/delivery checks and earlier bounded runtime observations separately.",
+  "environment": "Fresh complete source review. Manual new skill/rule/branch/alias examples in offline disposable Ubuntu 24.04/dash/Git 2.43.0/jq 1.7. Candidate homepage/assets served over offline local HTTP; metadata and anchors inspected without a browser. Unchanged CLI/installer/fixtures/report UI matched observed c7f032a bytes; badge generator matched 8167319. Earlier bounded safety observations carried forward, not rerun. Browser rendering/clipboard, real private authentication and other platforms untested.",
+  "reviewer": "Fresh Codex source reviewer isolated from implementation conversation/prior results. Implementing Codex operator performed current HTTP, content, fixture-command and source-equivalence observations; earlier bounded safety observations retained with their original source identity.",
   "checks": [
     {
       "id": "R01",
-      "note": "Code review: All CLI network paths are Git source discovery/clone/fetch for user-selected repositories or declared tool sources. Environment reads configure documented locations; no additional credential reads or telemetry identified. No runtime or live observation performed. Observation: Earlier bounded observations retained only after byte-comparing corresponding runtime, verification and UI files with observed c7f032a source. Runtime observations originally recorded at c7f032ae6dc10859f77d87b64c7268376885f85a; all corresponding runtime/fixture/UI bytes compared identical for this revision. Offline disposable lifecycle used only local Git remotes. Actual canonical site and its referenced local assets returned HTTP 200 and matched published source; installer matched candidate bytes. Git configuration and dependencies remain trusted; no exhaustive network-attempt trace claimed.",
+      "note": "Code review: All CLI network paths are Git default-branch lookup, clone, fetch and declared upgrade. No telemetry or direct credential read identified. Website loads visible GitHub and Scorecard badges. Runtime/public delivery not observed. Observation: Earlier bounded CLI/fixture/report observations at c7f032ae6dc10859f77d87b64c7268376885f85a carried forward only after corresponding source bytes compared identical. See recorded observations for outcomes and limits.",
       "code": "passed",
       "observed": "passed",
       "evidence": [
         {
           "label": "commands/install.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/install.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/install.sh"
         },
         {
           "label": "commands/update.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/update.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/update.sh"
         },
         {
           "label": "commands/upgrade.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/upgrade.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/upgrade.sh"
         },
         {
-          "label": "commands/paths.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/paths.sh"
+          "label": "docs/index.html",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/docs/index.html"
         }
       ],
       "question": "Are communication and data access confined to declared purposes? Inspect every network path and credential/environment read; observe the public delivery chain and disposable runs."
     },
     {
       "id": "R02",
-      "note": "Code review: Dispatch uses a fixed command allowlist, repository arguments use Git operand separators, jq receives values through --arg, and source contents are linked without evaluation. Local Git configuration, hooks and transports remain declared dependencies. No runtime observation performed. Observation: Earlier bounded observations retained only after byte-comparing corresponding runtime, verification and UI files with observed c7f032a source. Runtime observations originally recorded at c7f032ae6dc10859f77d87b64c7268376885f85a; all corresponding runtime/fixture/UI bytes compared identical for this revision. Empty selectors/alias/branch and traversal names were rejected. Installed inert payload did not create /work/payload-executed. Skills/rules were linked, not executed by distribution.",
+      "note": "Code review: Shell variables and jq arguments remain data; explicit Git option boundaries protect repository operands. Skill/rule content is checked and symlinked, never sourced. Local Git transports/hooks/configuration remain dependency trust. Inert fixture not executed by reviewer. Observation: Earlier bounded CLI/fixture/report observations at c7f032ae6dc10859f77d87b64c7268376885f85a carried forward only after corresponding source bytes compared identical. See recorded observations for outcomes and limits.",
       "code": "passed",
       "observed": "passed",
       "evidence": [
         {
-          "label": "skill-universe",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/skill-universe"
-        },
-        {
           "label": "commands/install.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/install.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/install.sh"
         },
         {
           "label": "commands/common.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/common.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/common.sh"
+        },
+        {
+          "label": "skill-universe",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/skill-universe"
         }
       ],
       "question": "Are arguments/content treated as data rather than unintended executable code? Trace quoting/dispatch/jq/Git operands; install the inert payload fixture and inspect its execution sentinel."
     },
     {
       "id": "R03",
-      "note": "Code review: Alias and selector validation rejects traversal forms; registered lookups determine removal/rename targets, and exact installation link targets must match registration. Configured absolute harness/state locations are intentional local authority. No runtime observation performed. Observation: Earlier bounded observations retained only after byte-comparing corresponding runtime, verification and UI files with observed c7f032a source. Runtime observations originally recorded at c7f032ae6dc10859f77d87b64c7268376885f85a; all corresponding runtime/fixture/UI bytes compared identical for this revision. Selection, alias rename/removal and missing-selector refusal exercised. Removal of a manually substituted registered link refused and preserved the substitute target.",
+      "note": "Code review: Alias/selector character restrictions reject traversal; rename/remove validate registered symlink target before mutation. Manifest directories and Git source configuration intentionally carry local user authority. Substituted-link scenarios not run. Observation: Earlier bounded CLI/fixture/report observations at c7f032ae6dc10859f77d87b64c7268376885f85a carried forward only after corresponding source bytes compared identical. See recorded observations for outcomes and limits.",
       "code": "passed",
       "observed": "passed",
       "evidence": [
         {
           "label": "commands/common.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/common.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/common.sh"
+        },
+        {
+          "label": "commands/install.sh",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/install.sh"
         },
         {
           "label": "commands/remove.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/remove.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/remove.sh"
         },
         {
           "label": "commands/rename.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/rename.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/rename.sh"
         }
       ],
       "question": "Are names and registered item operations confined to their intended paths? Trace validation/lookups and try traversal aliases, missing selectors and substituted links."
     },
     {
       "id": "R04",
-      "note": "Code review: Installation rejects root and descendant source links; candidate Git trees are checked for mode 120000 under skills/rules before updates merge. Existing working-tree symlinks are also rejected. No runtime observation performed. Observation: Earlier bounded observations retained only after byte-comparing corresponding runtime, verification and UI files with observed c7f032a source. Runtime observations originally recorded at c7f032ae6dc10859f77d87b64c7268376885f85a; all corresponding runtime/fixture/UI bytes compared identical for this revision. Update containing a source symlink refused with cache HEAD unchanged and unsafe path absent. A fresh-cache installation of the same unsafe source also refused.",
+      "note": "Code review: Install validates candidate tree and filesystem, including parent paths; update validates fetched tree plus existing local filesystem before merge. No source symlink bypass identified in scoped code. Bounded scenarios not run. Observation: Earlier bounded CLI/fixture/report observations at c7f032ae6dc10859f77d87b64c7268376885f85a carried forward only after corresponding source bytes compared identical. See recorded observations for outcomes and limits.",
       "code": "passed",
       "observed": "passed",
       "evidence": [
         {
           "label": "commands/common.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/common.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/common.sh"
         },
         {
           "label": "commands/install.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/install.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/install.sh"
         },
         {
           "label": "commands/update.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/update.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/update.sh"
         }
       ],
       "question": "Are source symlinks rejected before becoming visible? Inspect filesystem and candidate-tree validation; try symlink-bearing install and update fixtures."
     },
     {
       "id": "R05",
-      "note": "Code review: Occupied and dangling destinations are rejected; removal and rename demand registered symlinks. Transaction records preserve manifest, link and instruction originals with ready markers before mutations. No runtime observation performed. Observation: Earlier bounded observations retained only after byte-comparing corresponding runtime, verification and UI files with observed c7f032a source. Runtime observations originally recorded at c7f032ae6dc10859f77d87b64c7268376885f85a; all corresponding runtime/fixture/UI bytes compared identical for this revision. Occupied destination sentinel remained unchanged after refusal. Selected alias rename/removal succeeded; substituted original-link check refused removal.",
+      "note": "Code review: Occupied and dangling destinations are rejected; rename/remove require the expected installation link. Transactions retain original files/links and rollback ordinary failures. Hostile concurrent processes and trusted configuration authority remain excluded guarantees. Observation: Earlier bounded CLI/fixture/report observations at c7f032ae6dc10859f77d87b64c7268376885f85a carried forward only after corresponding source bytes compared identical. See recorded observations for outcomes and limits.",
       "code": "passed",
       "observed": "passed",
       "evidence": [
         {
           "label": "commands/common.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/common.sh"
-        },
-        {
-          "label": "commands/install.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/install.sh"
-        },
-        {
-          "label": "commands/remove.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/remove.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/common.sh"
         },
         {
           "label": "commands/rename.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/rename.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/rename.sh"
+        },
+        {
+          "label": "commands/remove.sh",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/remove.sh"
+        },
+        {
+          "label": "README.md",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/README.md"
         }
       ],
       "question": "Are unrelated files preserved? Inspect overwrite/backup controls; observe occupied destinations, rename/remove and refusal of substituted paths."
     },
     {
       "id": "R06",
-      "note": "Code review: Managed-block updates preserve surrounding instruction text, reject malformed marker structure and direct instruction-file symlinks, stage replacement beside destination and participate in transaction rollback. No runtime observation performed. Observation: Earlier bounded observations retained only after byte-comparing corresponding runtime, verification and UI files with observed c7f032a source. Runtime observations originally recorded at c7f032ae6dc10859f77d87b64c7268376885f85a; all corresponding runtime/fixture/UI bytes compared identical for this revision. Personal instruction text survived addition/final removal; a separator blank line remained outside the removed markers. No exact pre-install byte reconstruction is claimed. Malformed-block rollback preserved compared manifest/instruction bytes and removed staged links; direct instruction symlink refused.",
+      "note": "Code review: Codex helper validates marker structure, refuses direct AGENTS symlinks, stages replacement beside destination and removes only marked content. Transaction backups cover instruction edits. Malformed marker and rollback observations not run. Observation: Earlier bounded CLI/fixture/report observations at c7f032ae6dc10859f77d87b64c7268376885f85a carried forward only after corresponding source bytes compared identical. See recorded observations for outcomes and limits.",
       "code": "passed",
       "observed": "passed",
       "evidence": [
         {
           "label": "commands/codex-rules.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/codex-rules.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/codex-rules.sh"
         },
         {
           "label": "commands/common.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/common.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/common.sh"
+        },
+        {
+          "label": "commands/install.sh",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/install.sh"
+        },
+        {
+          "label": "commands/remove.sh",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/remove.sh"
         }
       ],
       "question": "Are personal instructions preserved? Inspect managed-block handling; observe addition, final removal, malformed markers, direct AGENTS.md symlinks and rollback."
     },
     {
       "id": "R07",
-      "note": "Code review: Updates use --ff-only --no-overwrite-ignore --no-autostash, mark pending Git operations, checkpoint successful shared-checkout metadata and retain recovery state on merge failure. Git changes are never automatically reset. No runtime observation performed. Observation: Earlier bounded observations retained only after byte-comparing corresponding runtime, verification and UI files with observed c7f032a source. Runtime observations originally recorded at c7f032ae6dc10859f77d87b64c7268376885f85a; all corresponding runtime/fixture/UI bytes compared identical for this revision. Shared update fast-forwarded and update-all no-op succeeded. Tracked conflict and ignored-path collision preserved local bytes and HEAD and retained lock/git-pending. Fixture recovery was performed explicitly by the operator; the tool did not reset local edits.",
+      "note": "Code review: Update/upgrade use ff-only, no-overwrite-ignore and no-autostash; git-pending retains lock/backups on merge failure and update-all checkpoints completed manifest changes. Recovery limitations are disclosed. No runtime failure scenarios executed. Observation: Earlier bounded CLI/fixture/report observations at c7f032ae6dc10859f77d87b64c7268376885f85a carried forward only after corresponding source bytes compared identical. See recorded observations for outcomes and limits.",
       "code": "passed",
       "observed": "passed",
       "evidence": [
         {
           "label": "commands/update.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/update.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/update.sh"
         },
         {
           "label": "commands/upgrade.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/upgrade.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/upgrade.sh"
         },
         {
           "label": "commands/common.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/commands/common.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/common.sh"
         },
         {
           "label": "README.md",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/README.md"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/README.md"
         }
       ],
       "question": "Do updates preserve local work and leave documented recoverable state? Inspect merge flags/locks/checkpoints; observe shared updates, conflicts, ignored-file protection and retained recovery information."
     },
     {
       "id": "R08",
-      "note": "Code review: README exposes complete executable installer contents, default mutable tool source and upgrade branch, and explains that installed instructions are not sandboxed. Source website command targets matching committed installer copies. Public deployment and remote HEAD were not observed. Observation: Public installation chain inspected at 2026-10-15T13:19:11Z. Canonical site command targets https://seliverstov-maxim.github.io/skill-universe/install.sh; HTTP 200, effective URL unchanged. SHA256 89d7404fc82c3c5cfb965ee12ba887882ee90cac989f73563041d001d11ed3ae equals both candidate installers and README embedded script. Declared destination https://github.com/seliverstov-maxim/skill-universe.git; actual remote HEAD 64b783e0550b2e52ff6dc4543d3bc57f198ac42c. Executable/runtime bytes match the earlier observed snapshot. Bootstrap/upgrade runtime evidence carried forward, no public download executed, mutable future code not certified.",
+      "note": "Code review: README shows complete shell bootstrap and public Git clone source; upgrade source is documented/configurable. Trust in mutable executable tool source and unsandboxed installed instructions is visible in installer, README and audit methodology. Actual public chain remains unobserved. Observation: At 2026-10-15T13:31:06Z actual canonical homepage advertised https://seliverstov-maxim.github.io/skill-universe/install.sh; HTTP 200/effective URL unchanged. SHA256 89d7404fc82c3c5cfb965ee12ba887882ee90cac989f73563041d001d11ed3ae matched candidate installers. Script declares https://github.com/seliverstov-maxim/skill-universe.git; actual public Git HEAD 67b5433fb750c5f3697929496798af956072eb89. New homepage copy is local candidate only; executable/runtime bytes unchanged. No public download executed; fixture bootstrap/upgrade observations carried forward at identical source bytes. Mutable future source not certified.",
       "code": "passed",
       "observed": "passed",
       "evidence": [
         {
           "label": "README.md",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/README.md"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/README.md"
         },
         {
           "label": "install.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/install.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/install.sh"
         },
         {
           "label": "docs/install.sh",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/docs/install.sh"
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/docs/install.sh"
         },
         {
-          "label": "docs/index.html",
-          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c/docs/index.html"
+          "label": "commands/upgrade.sh",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/commands/upgrade.sh"
+        },
+        {
+          "label": "docs/security/methodology.md",
+          "url": "https://github.com/seliverstov-maxim/skill-universe/blob/d648b523df1cba3ed000a5e952adeb3e600c8aa8/docs/security/methodology.md"
         }
       ],
       "question": "Are executable trust boundaries accurately disclosed? Trace bootstrap/upgrade sources and the public link; observe fixture bootstrap and upgrade, clearly distinguishing local transport fixtures from live public delivery."
@@ -190,14 +206,24 @@
   ],
   "observations": [
     {
-      "scenario": "Fresh README and source assessment",
+      "scenario": "Fresh complete source and declaration review",
       "result": "passed",
-      "details": "Independent reviewer read all 51 scoped files at 5e3ae18ea0d3abb6fc139db3faab9ad978ad2c6c and compared README promises with implementation. No actionable findings; source assessments passed. This is source review, not a new execution of CLI scenarios."
+      "details": "Fresh isolated Codex reviewer read all 51 scoped files at d648b523df1cba3ed000a5e952adeb3e600c8aa8, including website/README claims. No actionable findings. Runtime and delivery evidence below comes from the separate operator."
     },
     {
-      "scenario": "Observed-source equivalence",
+      "scenario": "Candidate website HTTP and content",
       "result": "passed",
-      "details": "Compared CLI entrypoint, both installers, all command shell files, verification image/setup/scenarios and report/website UI with observed c7f032a bytes; identical. Generator matched observed 8167319 bytes. Earlier bounded runtime and presentation evidence is explicitly carried forward, not represented as new execution."
+      "details": "Offline local HTTP served candidate index.html, style.css, icon.svg and install.sh; responses compared byte-identical to frozen source. Checked unique IDs, all internal anchors, parseable SoftwareSourceCode JSON and skills/rules descriptions. Selector/branch/alias examples and repository links present. Executable copy-handler text unchanged. No browser/CSS visual/clipboard success claim; actual public homepage still has previous copy."
+    },
+    {
+      "scenario": "New command examples",
+      "result": "passed",
+      "details": "In fresh offline container at the current frozen source: init Codex+Claude; install selected example-skill with explicit main branch; install selected example-rule with custom-rule alias; list matched manifest and symlinks in both harnesses pointed to cache. Inert /work/payload-executed sentinel absent. Public/private authentication was source-traced through trusted Git, not exercised against real credentials."
+    },
+    {
+      "scenario": "Earlier runtime evidence applicability",
+      "result": "passed",
+      "details": "CLI entrypoint, both installers, all command files, verification image/setup/scenarios, report UI and site CSS matched observed c7f032a bytes. Generator matched 8167319 bytes. Homepage prose/metadata/examples changed; new HTTP/content and command observations recorded separately. Earlier safety scenarios are carried forward, not called new runs."
     },
     {
       "scenario": "Prior observation · Current-snapshot manual lifecycle",
@@ -230,19 +256,14 @@
       "details": "Observed at c7f032ae6dc10859f77d87b64c7268376885f85a; source-byte equivalence checked for current revision. Read-only candidate snapshot served via offline local HTTP: both method query routes and versioned CSS/JS returned nonempty HTTP 200 responses. JavaScript was manually executed in a temporary minimal DOM: Security audit 8 rows/3 columns; Declared behavior audit 13 rows/4 columns; correct active tab, visible overview, matching JSON request and reproduction prompt in each. This was not a browser; visual layout, CSS rendering and clipboard were not exercised."
     },
     {
-      "scenario": "README installation and command claims",
+      "scenario": "Actual public installation chain",
       "result": "passed",
-      "details": "Extracted the second shell block from README and compared byte-for-byte with install.sh: identical. Fresh source review compared documented selectors, defaults, paths, symlink distribution, merges and recovery with code. No unperformed execution claimed."
+      "details": "Read-only HTTP/Git at 2026-10-15T13:31:06Z: canonical install link/effective HTTP200 URL unchanged; SHA256 89d7404fc82c3c5cfb965ee12ba887882ee90cac989f73563041d001d11ed3ae matched candidate installer bytes. Actual public HEAD 67b5433fb750c5f3697929496798af956072eb89. Candidate homepage copy not yet deployed. Public downloaded installer not executed; future mutable Git code is not certified."
     },
     {
-      "scenario": "Current public delivery",
+      "scenario": "Report and badge consistency",
       "result": "passed",
-      "details": "Read-only HTTP/Git at 2026-10-15T13:19:11Z: actual canonical site install command and HTTP 200/effective installer URL recorded. SHA256 89d7404fc82c3c5cfb965ee12ba887882ee90cac989f73563041d001d11ed3ae matched candidate installers/README. Remote HEAD 64b783e0550b2e52ff6dc4543d3bc57f198ac42c. Public report HTML matched unchanged candidate UI. Public downloads not executed; candidate README not yet published."
-    },
-    {
-      "scenario": "Current report and badge consistency",
-      "result": "passed",
-      "details": "Ran unchanged shell generator and --check against updated reports, exact source commit and complete hash inventory; both generated SVG badges parsed as XML. Consistency checks do not perform the audit. Prior negative-validator/visual observations were not rerun for this README-only change. No new runtime scanner or hosted CI pass is claimed."
+      "details": "Generated both methodology badges and ran --check with current reports, source commit and full hash inventory; SVGs parsed as XML. Unchanged generator’s prior negative-validator/visual checks carried forward; no current scanner or hosted CI success claimed. This consistency check does not perform the audit."
     }
   ],
   "files": {
@@ -273,7 +294,7 @@
     "commands/upgrade.sh": "1eeebcc340aea5cd1ac4acabe854db7bab69fa3c6da98302de8be9eefa99f142",
     "commands/version.sh": "f8073966e183f2d5256310ab225cd1fcd33ebd552bfb0548bcbaaea79ff91d78",
     "docs/icon.svg": "4caf6a04bceea2ed9b32a60300831df0210e4fd7a8bd8afd047fd3bc1f72ef98",
-    "docs/index.html": "a627ec4ab884e1278e43d70d3fb8dcba23352ef2967344d7c4b32d51e26b5961",
+    "docs/index.html": "b905448c6c341dd4ed08ff3371eac9a44f4101d4bae9114c98e651f8d0ca58b8",
     "docs/install.sh": "89d7404fc82c3c5cfb965ee12ba887882ee90cac989f73563041d001d11ed3ae",
     "docs/security/declared-behavior-methodology.md": "8287a47b3b833939bbd30449fbf34560c79a9a65dd8bacec5ea45b6120ac26f9",
     "docs/security/malware-scanning.md": "6af8f192159bd2e21c3cb62d4591718b99cc13e279dcec0daa5518ebf92dcfac",
