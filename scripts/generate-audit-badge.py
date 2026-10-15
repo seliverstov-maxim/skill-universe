@@ -25,6 +25,11 @@ for method, report_path, badge_path in methods:
     if not revision or not result:
         sys.exit(f'{method}: report must identify the full reviewed commit and result.')
     revision, result = revision[1], result[1]
+    if method == 'SU-DECL-1' and result == 'passing':
+        answers = re.findall(r'^\| (Q[0-9]{2}) \| (Yes|No) \|', report, re.M)
+        required = [(f'Q{i:02}', 'No' if i == 12 else 'Yes') for i in range(1, 13)]
+        if answers != required:
+            sys.exit('SU-DECL-1: passing requires Q01-Q11 Yes and Q12 No, in order.')
     expected = dict(re.findall(r'^\| `([^`]+)` \| `([0-9a-f]{64})` \|$', report, re.M))
     if set(paths) != set(expected):
         sys.exit(f'{method}: audit coverage is stale; review all tracked files.')
