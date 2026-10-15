@@ -40,6 +40,7 @@ mkdir -p "$HOME/.local/bin"
 ln -s "$HOME/.skill-universe/tool/skill-universe" "$HOME/.local/bin/skill-universe"
 
 printf 'Installed: %s/.local/bin/skill-universe\n' "$HOME"
+# shellcheck disable=SC2016 # Print literal profile variables for the user to copy.
 printf 'Add to your shell profile: export PATH="$HOME/.local/bin:$PATH"\n'
 ```
 
@@ -139,3 +140,5 @@ This provides rollback and recoverable state, not an atomic transaction across G
 See the [current security review](docs/security/report.md) for the reviewed commit, findings, methodology, and source-based reasoning. This is a Codex-assisted review of a specific revision, not a claim that all versions or third-party skills and rules are safe.
 
 The OpenSSF Scorecard badge links to an external assessment of repository security practices. It is separate from the source review and does not certify the safety of every version or installed skill. Results are published by the official Scorecard Action after pushes to `main`.
+
+Security issues can be reported privately as described in the [security policy](SECURITY.md). ShellCheck runs on pushes to `main` and pull requests; Dependabot proposes updates to the pinned GitHub Actions. These development checks add no runtime dependencies to the CLI.

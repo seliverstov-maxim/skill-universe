@@ -14,4 +14,5 @@ mkdir -p "$HOME/.local/bin"
 ln -s "$HOME/.skill-universe/tool/skill-universe" "$HOME/.local/bin/skill-universe"
 
 printf 'Installed: %s/.local/bin/skill-universe\n' "$HOME"
+# shellcheck disable=SC2016 # Print literal profile variables for the user to copy.
 printf 'Add to your shell profile: export PATH="$HOME/.local/bin:$PATH"\n'

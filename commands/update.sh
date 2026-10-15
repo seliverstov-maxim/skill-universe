@@ -21,7 +21,9 @@ while IFS= read -r alias; do
     candidate=$(git -C "$checkout" rev-parse FETCH_HEAD)
     tree_ok "$checkout" "$candidate"
     for parent in "$checkout/skills" "$checkout/rules"; do
-        [ ! -e "$parent" ] && [ ! -L "$parent" ] || source_ok "$parent"
+        if [ -e "$parent" ] || [ -L "$parent" ]; then
+            source_ok "$parent"
+        fi
     done
     printf 'Update checkout: %s\nCandidate: %s\n' "$checkout" "$candidate" > "$work/git-pending"
     if ! git -C "$checkout" merge --ff-only --no-overwrite-ignore --no-autostash "$candidate"; then

@@ -45,7 +45,9 @@ fi
 commit=$(git -C "$checkout" rev-parse HEAD)
 tree_ok "$checkout" "$commit"
 for parent in "$checkout/skills" "$checkout/rules"; do
-    [ ! -e "$parent" ] && [ ! -L "$parent" ] || source_ok "$parent"
+    if [ -e "$parent" ] || [ -L "$parent" ]; then
+        source_ok "$parent"
+    fi
 done
 
 matched=no

@@ -17,6 +17,7 @@ if [ "$1" = add ]; then
     if [ -f "$file" ] && grep -Fqx '<!-- skill-universe:rules:start -->' "$file"; then exit 0; fi
     directory=$(jq -r '.harnesses.codex.rules_directory' "$manifest")
     if [ -f "$file" ]; then cat "$file" > "$work/agents"; else : > "$work/agents"; fi
+    # shellcheck disable=SC2016 # Backticks delimit a Markdown path; they are not shell commands.
     printf '\n<!-- skill-universe:rules:start -->\nRead and follow all Markdown files in `%s`.\n<!-- skill-universe:rules:end -->\n' "$directory" >> "$work/agents"
 else
     [ -f "$file" ] || exit 0

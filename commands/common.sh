@@ -20,7 +20,9 @@ tree_ok() {
     fi
 }
 empty_destination() {
-    [ ! -e "$1" ] && [ ! -L "$1" ] || fail "Destination already exists: $1"
+    if [ -e "$1" ] || [ -L "$1" ]; then
+        fail "Destination already exists: $1"
+    fi
 }
 remember() {
     case "$1" in *'
@@ -76,6 +78,7 @@ checkpoint_manifest() {
         fi
     done
 }
+# shellcheck disable=SC2034 # directory_key and suffix are outputs consumed by sourcing commands.
 select_entry() {
     name_ok "$1"
     kind=$(jq -er --arg alias "$1" 'if (.skills | has($alias)) then "skills"
@@ -89,9 +92,11 @@ directories() {
         "$manifest" > "$work/directories"
 }
 expand_directory() {
+    # shellcheck disable=SC2088 # Match literal ~/ before expanding it explicitly with HOME.
     case "$directory" in '~/'*) directory="$HOME/${directory#\~/}" ;; esac
     case "$directory" in /*) ;; *) fail "Harness directory must be absolute: $directory" ;; esac
 }
+# shellcheck disable=SC2154 # alias is set by remove/rename before calling this sourced function.
 managed_link() {
     [ -L "$1" ] || fail "Installed link is missing or replaced: $1"
     url=$(jq -er --arg kind "$kind" --arg alias "$alias" '.[$kind][$alias].url' "$manifest")
