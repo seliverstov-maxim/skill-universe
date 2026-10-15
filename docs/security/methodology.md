@@ -31,12 +31,12 @@ The OS, shell, Git, and jq are dependencies assumed trustworthy for this review;
 5. Challenge every suspected issue: identify who controls the input, the reachable code path, required preconditions, concrete impact, and any control that prevents it. Describe consequences as source-based reasoning, not observed execution. Separate actual defects from optional hardening and documented trust assumptions.
 6. Use a fresh review agent with no inherited implementation conversation. Supply only the source location, intended behavior, methodology, and scope. The reviewer must not read previous reports, implementation diffs/history, earlier findings, or other reviewers' conclusions. Freeze application source while the reviewer reads it.
 7. After that reviewer finishes, the implementing agent may read its findings and fix confirmed issues. After any code fix, repeat the complete review in another fresh context without passing earlier findings. Continue until the final fresh review identifies no actionable issue within scope, or explicitly report what remains unresolved. Context separation reduces framing; it is not independent institutional certification.
-8. Write one current report with source identity, date, reviewer roles, file coverage, checklist results, findings, and overall judgment. Replace the previous report instead of adding report archives. A draft must not claim that its fixes are present at the baseline SHA. When code is committed, read and compare the final committed files before replacing the draft identity with that full commit SHA.
+8. Write the current SU-SEC-1 report at `docs/security/security-report.md` with source identity, date, reviewer roles, file coverage, checklist results, findings, and overall judgment. Replace the previous report instead of adding report archives. A draft must not claim that its fixes are present at the baseline SHA. When code is committed, read and compare the final committed files before replacing the draft identity with that full commit SHA.
 9. Another reviewer reproduces the review by reading the same source revision and following these steps in a clean context. Record disagreements and change the assessment when source evidence warrants it.
 
 ## Declared behavior
 
-Also apply [SU-DECL-1](declared-behavior-methodology.md) to compare the complete implementation with its public declarations. Include its Yes/No answers and evidence in the same current report, alongside the security conclusions.
+Also apply [SU-DECL-1](declared-behavior-methodology.md) to compare the complete implementation with its public declarations. Publish its Yes/No answers and evidence separately in `docs/security/declared-behavior-report.md`.
 
 ## Review checklist
 
@@ -68,6 +68,10 @@ For each finding include an ID, contextual severity, actor and preconditions, so
 
 Reading source can miss behavior and cannot establish the absence of every hidden feature. This procedure does not provide formal proof, independent certification, runtime or cross-platform validation, dependency auditing, or assurance about third-party instructions and future updates. If the same agent contributed code and reviewed it, disclose that relationship.
 
-## Generated badge
+## Report result and generated badges
 
-After publishing the assessment for a committed source revision, run `python3 scripts/generate-audit-badge.py` and commit `docs/security/audit.svg` with the report. The badge identifies the reviewed commit and links to the report; it does not certify safety or indicate scanner results. Exclude the report and its generated badge from the reviewed source inventory to avoid circular hashes. Include the generator and consistency workflow in the review. CI checks inventory completeness, source hashes and badge freshness; it does not perform the source audit.
+The security report states `- Result: **passing**`, `failing` or `incomplete`. Passing means this procedure was completed with no actionable findings or unresolved source questions under the recorded trust assumptions. It is not a safety certification.
+
+After updating both methodology reports, run `python3 scripts/generate-audit-badge.py` and commit the two generated SVGs. Each badge names its methodology and result, links to its own report, and records the reviewed SHA in its title. Passing is green; failing is red; incomplete is gray.
+
+Exclude only `docs/security/security-report.md`, `docs/security/declared-behavior-report.md`, `docs/security/security-badge.svg` and `docs/security/declared-behavior-badge.svg` from the source inventory to avoid circular hashes. Include the generator, report index and consistency workflow in the review. CI checks inventory completeness, source hashes and badge freshness; it does not perform the audits or prove their conclusions.

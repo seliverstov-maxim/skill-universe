@@ -2,7 +2,8 @@
 
 A small Unix CLI for installing and updating skills and rules from Git repositories in Codex and Claude.
 
-[![Internal audit](docs/security/audit.svg)](docs/security/report.md)
+[![SU-SEC-1](docs/security/security-badge.svg)](docs/security/security-report.md)
+[![SU-DECL-1](docs/security/declared-behavior-badge.svg)](docs/security/declared-behavior-report.md)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge)](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe)
 [![CodeQL](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml)
 [![ShellCheck](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml)
