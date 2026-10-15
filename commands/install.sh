@@ -78,12 +78,6 @@ for source in "$checkout"/skills/* "$checkout"/skills/.[!.]* "$checkout"/skills/
         exit 1
     fi
 
-    if [ "$kind" = rules ]; then
-        jq '.rules //= {} | .harnesses |= with_entries(
-            .value.rules_directory //= (if .key == "codex" then "~/.codex/rules" else "~/.claude/rules" end)
-        )' "$manifest" > "$work/manifest"
-        mv "$work/manifest" "$manifest"
-    fi
     directories
     while IFS= read -r directory; do
         expand_directory
@@ -97,10 +91,6 @@ for source in "$checkout"/skills/* "$checkout"/skills/.[!.]* "$checkout"/skills/
         ln -s "$source" "$directory/$selected_alias$suffix"
         printf 'Installed: %s/%s%s\n' "$directory" "$selected_alias" "$suffix"
     done < "$work/directories"
-    if [ "$kind" = rules ]; then
-        remember "$codex_agents"
-        sh "$(dirname "$0")/codex-rules.sh" add "$work"
-    fi
 
     jq --arg kind "$kind" --arg alias "$selected_alias" --arg url "$repo_url" --arg branch "$branch" \
         --arg path "${source#"$checkout"/}" --arg commit "$commit" \

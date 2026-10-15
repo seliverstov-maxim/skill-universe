@@ -40,3 +40,10 @@ initial_manifest=$(jq -n --arg harnesses "${1#--harness=}" \
 mkdir -p "$state"
 (set -C; printf '%s\n' "$initial_manifest" > "$state/manifest.json")
 printf 'Created: %s/manifest.json\n' "$state"
+
+if printf '%s\n' "$initial_manifest" | jq -e '.harnesses | has("codex")' >/dev/null; then
+    printf '\nCodex: to load rules, add this at the top level of %s/config.toml:\n' "${CODEX_HOME:-"$HOME/.codex"}"
+    printf '%s\n' "$initial_manifest" | jq -r \
+        '"developer_instructions = " + ("Read and follow all Markdown files in `" + .harnesses.codex.rules_directory + "`." | tojson)'
+    printf 'If developer_instructions already exists, append this instruction to its value.\n'
+fi

@@ -22,4 +22,5 @@ git -C /work/tool-author commit -m 'Verification tool source'
 git clone --bare /work/tool-author /work/tool-upstream.git
 git clone /work/tool-upstream.git /work/state/tool
 printf 'Personal instruction sentinel\n' > /work/codex/AGENTS.md
+printf 'developer_instructions = "Personal instruction sentinel"\n' > /work/codex/config.toml
 printf 'Fixtures ready. Tool: /work/state/tool/skill-universe\n'

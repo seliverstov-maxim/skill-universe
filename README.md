@@ -2,6 +2,8 @@
 
 A Unix CLI for installing and updating skills and rules from Git repositories for Codex and Claude. No telemetry or central catalog.
 
+Release: **[v2.0.00](https://github.com/seliverstov-maxim/skill-universe/tree/v2.0.00)**. Incompatible with version 1; start with a fresh manifest using `init`.
+
 [![SU-SEC-1](docs/security/security-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-SEC-1)
 [![SU-DECL-1](docs/security/declared-behavior-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-DECL-1)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge)](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe)
@@ -57,6 +59,8 @@ Choose Codex, Claude, or both:
 skill-universe init --harness=codex,claude
 ```
 
+For Codex rules, follow the manual configuration instructions printed by `init`. Claude loads its user rules directory directly.
+
 Install a repository, or select a skill or rule:
 
 ```sh
@@ -90,19 +94,19 @@ Items with the same repository URL and branch share a checkout. Updating one upd
 - Skills: `~/.agents/skills/` for Codex; `~/.claude/skills/` for Claude.
 - Rules: `~/.codex/rules/` for Codex; `~/.claude/rules/` for Claude.
 
-Skills and rules are symlinked into the configured harness directories. For Codex, installing the first rule adds a block in `~/.codex/AGENTS.md` instructing it to read the rules directory. The block is marked with `<!-- skill-universe:rules:start -->` and `<!-- skill-universe:rules:end -->`. Removing the last rule removes that block and leaves personal instructions intact. Claude reads its user rules directory directly.
+Skills and rules are symlinked into the configured harness directories. The tool does not edit personal instruction or configuration files. For Codex, `init` prints a `developer_instructions` entry to add manually at the top level of `$CODEX_HOME/config.toml` (default `~/.codex/config.toml`). If the entry already exists, append the instruction to its value. Claude reads its user rules directory directly.
 
-Edit `directory`, `rules_directory`, or the `upgrade` Git source in the manifest to change them. Older manifests gain rule settings when the first rule is installed.
+Edit `directory`, `rules_directory`, or the `upgrade` Git source in the manifest to change them. If you change the Codex rules directory, update your manual instruction too.
 
 | Environment variable | Purpose / default |
 | --- | --- |
 | `SKILL_UNIVERSE_HOME` | State, manifest, cache and tool checkout: `~/.skill-universe`. |
 | `SKILL_UNIVERSE_BIN_DIR` | Installer command directory: `~/.local/bin`. |
-| `SKILL_UNIVERSE_CODEX_AGENTS_FILE` | Codex instruction file: `~/.codex/AGENTS.md`. |
+| `CODEX_HOME` | Codex configuration directory shown in the `init` instructions: `~/.codex`. Does not change installation destinations. |
 | `SKILL_UNIVERSE_CODEX_SKILLS_DIR` / `SKILL_UNIVERSE_CODEX_RULES_DIR` | Codex paths stored by `init`. |
 | `SKILL_UNIVERSE_CLAUDE_SKILLS_DIR` / `SKILL_UNIVERSE_CLAUDE_RULES_DIR` | Claude paths stored by `init`. |
 
-State, installer and AGENTS.md overrides must be absolute paths. Harness paths may be absolute or start with `~/`. Harness environment overrides apply only during `init`; edit the manifest for an existing installation. Keep state and AGENTS.md overrides consistent across commands.
+State and installer overrides must be absolute paths. Harness paths may be absolute or start with `~/`. Harness environment overrides apply only during `init`; edit the manifest for an existing installation. Keep the state override consistent across commands.
 
 ## Repository structure
 
@@ -123,9 +127,9 @@ repository/
 
 ## File safety and recovery
 
-Install and rename reject occupied destinations, including dangling links. Rename and remove require the registered installation symlink; substituted files or links are left alone. A malformed managed block or a symlink at the configured Codex AGENTS.md path causes an error.
+Install and rename reject occupied destinations, including dangling links. Rename and remove require the registered installation symlink; substituted files or links are left alone.
 
-Mutating commands use `~/.skill-universe/lock/`. Backups of links, the manifest and AGENTS.md are stored in `~/.skill-universe/transaction.*`. Ordinary errors and handled signals trigger file rollback; cached clones and newly created empty directories can remain.
+Mutating commands use `~/.skill-universe/lock/`. Backups of links and the manifest are stored in `~/.skill-universe/transaction.*`. Ordinary errors and handled signals trigger file rollback; cached clones and newly created empty directories can remain.
 
 Git changes are never reset automatically. Failed or interrupted merges retain the lock and transaction directory. `update all` saves progress per checkout; earlier successful updates remain applied.
 
@@ -133,7 +137,7 @@ If a lock remains after a failed merge, forced termination, power loss or failed
 
 1. Confirm no related command or Git operation is running before removing its lock.
 2. Inspect the retained transaction directory. Each `entry.*` records a `path`, an optional `original` backup, and a `ready` marker. Only entries with `ready` have complete backups. `git-pending` identifies a Git operation requiring inspection.
-3. Reconcile links, personal files, backups and the manifest. Inspect Git changes before finishing or undoing them. Align all manifest entries sharing the repository URL and branch with the resulting HEAD. Do not blindly reset a checkout or restore an older manifest over a completed update.
+3. Reconcile links, backups and the manifest. Inspect Git changes before finishing or undoing them. Align all manifest entries sharing the repository URL and branch with the resulting HEAD. Do not blindly reset a checkout or restore an older manifest over a completed update.
 4. Once state agrees, remove the recovered transaction directory and empty lock directory.
 
 Rollback does not make Git and file changes atomic across filesystems or power loss. The tool does not sandbox skills or rules; install only repositories whose instructions you trust. Path overrides do not isolate execution. Use the [disposable verification environment](verification/README.md) when checking untrusted code.
