@@ -34,6 +34,10 @@ The OS, shell, Git, and jq are dependencies assumed trustworthy for this review;
 8. Write one current report with source identity, date, reviewer roles, file coverage, checklist results, findings, and overall judgment. Replace the previous report instead of adding report archives. A draft must not claim that its fixes are present at the baseline SHA. When code is committed, read and compare the final committed files before replacing the draft identity with that full commit SHA.
 9. Another reviewer reproduces the review by reading the same source revision and following these steps in a clean context. Record disagreements and change the assessment when source evidence warrants it.
 
+## Declared behavior
+
+Also apply [SU-DECL-1](declared-behavior-methodology.md) to compare the complete implementation with its public declarations. Include its Yes/No answers and evidence in the same current report, alongside the security conclusions.
+
 ## Review checklist
 
 | ID | Question |
