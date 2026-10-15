@@ -1,8 +1,16 @@
 # Skill Universe
 
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge)](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe)
-
 A small Unix CLI for installing and updating skills and rules from Git repositories in Codex and Claude.
+
+## Security verification
+
+- **Internal audit:** [Codex source review](docs/security/report.md), following [SU-SEC-1 v3](docs/security/methodology.md), based on OWASP guidance. Covers the revision recorded in the report.
+- **External checks:** [OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe) assesses repository practices weekly; [CodeQL](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml) scans GitHub Actions workflows. ShellCheck analyzes shell sources.
+- **Disclosure:** [Security policy](SECURITY.md). Reviews and checks do not certify third-party skills or rules.
+
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge)](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe)
+[![CodeQL](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml)
+[![ShellCheck](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml)
 
 ## Why
 
@@ -134,11 +142,3 @@ After forced termination, power loss, a failed Git operation, or failed rollback
 4. Once files and state agree, remove the recovered transaction directory and the empty lock directory. Commands can then run again.
 
 This provides rollback and recoverable state, not an atomic transaction across Git, multiple filesystems, or power failure. Only install repositories whose instructions you trust; the tool does not sandbox skills or rules.
-
-## Security verification
-
-See the [current security review](docs/security/report.md) for the reviewed commit, findings, methodology, and source-based reasoning. This is a Codex-assisted review of a specific revision, not a claim that all versions or third-party skills and rules are safe.
-
-The OpenSSF Scorecard badge links to an external assessment of repository security practices. It is separate from the source review and does not certify the safety of every version or installed skill. Results are published by the official Scorecard Action after pushes to `main`.
-
-Security issues can be reported privately as described in the [security policy](SECURITY.md). ShellCheck runs on pushes to `main` and pull requests; Dependabot proposes updates to the pinned GitHub Actions. These development checks add no runtime dependencies to the CLI.
