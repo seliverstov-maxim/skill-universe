@@ -1,25 +1,32 @@
 #!/bin/sh
 set -eu
+. "$(dirname "$0")/common.sh"
 
 alias="$1"
 new_alias="$2"
-manifest="$HOME/.skill-universe/manifest.json"
-kind=skills; directory_key=directory; suffix=""
-if jq -e --arg alias "$alias" '(.rules // {}) | has($alias)' "$manifest" >/dev/null; then
-    kind=rules; directory_key=rules_directory; suffix=.md
-fi
+select_entry "$alias"
+name_ok "$new_alias"
 
 if jq -e --arg alias "$new_alias" '(.skills + (.rules // {})) | has($alias)' "$manifest" >/dev/null; then
     printf 'Alias already installed: %s\n' "$new_alias" >&2
     exit 1
 fi
 
-jq -r --arg key "$directory_key" '.harnesses[][$key]' "$manifest" | while IFS= read -r directory; do
-    case "$directory" in '~/'*) directory="$HOME/${directory#\~/}" ;; esac
-    mv "$directory/$alias$suffix" "$directory/$new_alias$suffix"
-done
+directories
+while IFS= read -r directory; do
+    expand_directory
+    managed_link "$directory/$alias$suffix"
+    empty_destination "$directory/$new_alias$suffix"
+    remember "$directory/$new_alias$suffix"
+    remember "$directory/$alias$suffix"
+done < "$work/directories"
+while IFS= read -r directory; do
+    expand_directory
+    mv -n "$directory/$alias$suffix" "$directory/$new_alias$suffix"
+    [ ! -L "$directory/$alias$suffix" ] || fail "Rename did not move the source"
+done < "$work/directories"
 
 jq --arg kind "$kind" --arg alias "$alias" --arg new "$new_alias" \
-    '.[$kind][$new] = .[$kind][$alias] | del(.[$kind][$alias])' "$manifest" > "$manifest.tmp"
-mv "$manifest.tmp" "$manifest"
+    '.[$kind][$new] = .[$kind][$alias] | del(.[$kind][$alias])' "$manifest" > "$work/manifest"
+mv "$work/manifest" "$manifest"
 printf 'Renamed: %s -> %s\n' "$alias" "$new_alias"

@@ -25,6 +25,13 @@ The installer clones the tool into `~/.skill-universe/tool/` and creates a comma
 #!/bin/sh
 set -eu
 
+for destination in "$HOME/.skill-universe/tool" "$HOME/.local/bin/skill-universe"; do
+    if [ -e "$destination" ] || [ -L "$destination" ]; then
+        printf 'Destination already exists: %s\n' "$destination" >&2
+        exit 1
+    fi
+done
+
 git clone "https://github.com/seliverstov-maxim/skill-universe.git" "$HOME/.skill-universe/tool"
 chmod +x "$HOME/.skill-universe/tool/skill-universe"
 mkdir -p "$HOME/.local/bin"
@@ -58,7 +65,7 @@ skill-universe install <repo-url> --branch=<branch> --skill=<skill-name> --alias
 skill-universe install <repo-url> --rule=<rule-name> --alias=<alias>
 ```
 
-Without filters, all skills and rules from the default branch are installed. Rule aliases default to filenames without `.md`; skill aliases default to directory names. Aliases are unique across both types. `--skill` and `--rule` are mutually exclusive; `--alias` requires one of them.
+Without filters, all skills and rules from the default branch are installed. Rule aliases default to filenames without `.md`; skill aliases default to directory names. Aliases are unique across both types. Skill names, rule names, and aliases may use ASCII letters, digits, `.`, `_`, and `-`; `.` and `..` are rejected. `--skill` and `--rule` are mutually exclusive; `--alias` requires one of them.
 
 Rules are linked into `~/.codex/rules/` and `~/.claude/rules/` for your configured harnesses. For Codex, the first rule adds an instruction to read the rules directory in `~/.codex/AGENTS.md`, between `<!-- skill-universe:rules:start -->` and `<!-- skill-universe:rules:end -->`. Removing the last rule removes only that block, preserving your other instructions. Claude loads its user rules directory directly.
 
@@ -72,7 +79,7 @@ skill-universe update all
 skill-universe remove <alias>
 ```
 
-When skills and rules share a checkout, updating one affects all items linked to it. Local changes are allowed; if Git cannot fast-forward, you resolve the conflict.
+When skills and rules share a checkout, updating one affects all items linked to it. Local changes are allowed; updates use a fast-forward merge with automatic stashing disabled, refuse to overwrite ignored local files, and never reset the checkout. A failed or interrupted Git merge leaves recovery information as described below.
 
 Update the tool and view help:
 
@@ -105,7 +112,25 @@ repository/
 - **Skills:** each skill must have `skills/<skill-name>/SKILL.md`. Supporting files and directories are optional; the entire skill directory is linked into the harness.
 - **Rules:** each rule is a plain Markdown file at `rules/<rule-name>.md`. No frontmatter is required; file contents are preserved.
 - Both `skills/` and `rules/` are optional. Only immediate skill directories and immediate `.md` rule files are discovered. A root-level `SKILL.md`, nested rules, and other rule file extensions are ignored.
+- Symbolic links anywhere under `skills/` or `rules/` are rejected, including links inside skill resources and links used as the top-level directories. Updates validate the incoming Git tree before applying it.
 - `--skill=<skill-name>` selects a directory name; `--rule=<rule-name>` selects a filename without `.md`.
+
+## File safety and recovery
+
+Install and rename reject occupied destinations, including directories and dangling links. Remove and rename require a registered alias and its original installation symlink; a file or link you substituted is left alone. A malformed managed block or a symlink at `~/.codex/AGENTS.md` causes an error.
+
+Commands that change state share a lock at `~/.skill-universe/lock/`. Links, the manifest, and AGENTS.md have backups in a private `~/.skill-universe/transaction.*` directory. Ordinary errors and handled signals trigger rollback of file changes. Newly created empty directories and cached clones can remain.
+
+Git changes are not automatically reset. If a merge/pull fails or is interrupted, the command retains its lock and transaction directory for inspection, even for an ordinary Git conflict. `update all` commits progress separately for each checkout; earlier successful updates remain applied.
+
+After forced termination, power loss, a failed Git operation, or failed rollback:
+
+1. Confirm that no Skill Universe or related Git operation is still running. Do not remove an active command's lock.
+2. Inspect the retained transaction directory. Each `entry.*` contains `path`, an optional `original` backup, and `ready` when the backup is complete. `git-pending`, when present, identifies the Git operation that needs inspection. Entries without `ready` are incomplete backups and must not be used for restoration.
+3. For interrupted link operations, reconcile recorded paths with the backups and manifest. For a Git operation, inspect its checkout and local changes before deciding whether to finish or undo it. Align all manifest entries sharing that URL and branch with the resulting checkout HEAD. Do not blindly reset a development checkout or restore an older manifest over a completed update.
+4. Once files and state agree, remove the recovered transaction directory and the empty lock directory. Commands can then run again.
+
+This provides rollback and recoverable state, not an atomic transaction across Git, multiple filesystems, or power failure. Only install repositories whose instructions you trust; the tool does not sandbox skills or rules.
 
 ## Security verification
 

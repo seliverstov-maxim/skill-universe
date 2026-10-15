@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
+. "$(dirname "$0")/common.sh"
 
 if [ "$#" -ne 1 ]; then
     printf 'Usage: skill-universe init --harness=codex,claude\n' >&2
@@ -14,7 +15,7 @@ case "$1" in
         ;;
 esac
 
-manifest=$(jq -n --arg harnesses "${1#--harness=}" '
+initial_manifest=$(jq -n --arg harnesses "${1#--harness=}" '
     {
         version: 1,
         harnesses: ($harnesses | split(",") | map(
@@ -33,5 +34,5 @@ manifest=$(jq -n --arg harnesses "${1#--harness=}" '
 ')
 
 mkdir -p "$HOME/.skill-universe"
-(set -C; printf '%s\n' "$manifest" > "$HOME/.skill-universe/manifest.json")
+(set -C; printf '%s\n' "$initial_manifest" > "$HOME/.skill-universe/manifest.json")
 printf 'Created: %s/.skill-universe/manifest.json\n' "$HOME"

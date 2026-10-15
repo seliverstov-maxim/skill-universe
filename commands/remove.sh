@@ -1,21 +1,25 @@
 #!/bin/sh
 set -eu
+. "$(dirname "$0")/common.sh"
 
 alias="$1"
-manifest="$HOME/.skill-universe/manifest.json"
-kind=skills; directory_key=directory; suffix=""
-if jq -e --arg alias "$alias" '(.rules // {}) | has($alias)' "$manifest" >/dev/null; then
-    kind=rules; directory_key=rules_directory; suffix=.md
-fi
+select_entry "$alias"
 
-jq -r --arg key "$directory_key" '.harnesses[][$key]' "$manifest" | while IFS= read -r directory; do
-    case "$directory" in '~/'*) directory="$HOME/${directory#\~/}" ;; esac
-    rm "$directory/$alias$suffix"
-done
+directories
+while IFS= read -r directory; do
+    expand_directory
+    managed_link "$directory/$alias$suffix"
+    remember "$directory/$alias$suffix"
+done < "$work/directories"
+while IFS= read -r directory; do
+    expand_directory
+    rm -- "$directory/$alias$suffix"
+done < "$work/directories"
 
-jq --arg kind "$kind" --arg alias "$alias" 'del(.[$kind][$alias])' "$manifest" > "$manifest.tmp"
-mv "$manifest.tmp" "$manifest"
+jq --arg kind "$kind" --arg alias "$alias" 'del(.[$kind][$alias])' "$manifest" > "$work/manifest"
+mv "$work/manifest" "$manifest"
 if [ "$kind" = rules ] && jq -e '.rules | length == 0' "$manifest" >/dev/null; then
-    sh "$(dirname "$0")/codex-rules.sh" remove
+    remember "$HOME/.codex/AGENTS.md"
+    sh "$(dirname "$0")/codex-rules.sh" remove "$work"
 fi
 printf 'Removed: %s\n' "$alias"
