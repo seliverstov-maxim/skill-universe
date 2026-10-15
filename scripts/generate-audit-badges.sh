@@ -40,14 +40,30 @@ for method in SU-SEC-1 SU-DECL-1; do
             printf 'Audit source is stale: %s (%s)\n' "$path" "$method" >&2; exit 1;
         fi
     done < "$work/paths"
-    case "$result" in passing) color='#4c1' ;; failing) color='#e05d44' ;; incomplete) color='#9f9f9f' ;; esac
+    case "$result" in
+        passing) top_color='#34D058'; bottom_color='#28A745'; state_width=50 ;;
+        failing) top_color='#F97583'; bottom_color='#D73A49'; state_width=44 ;;
+        incomplete) top_color='#959DA5'; bottom_color='#6A737D'; state_width=70 ;;
+    esac
+    if [ "$method" = SU-SEC-1 ]; then label_width=78; else label_width=86; fi
+    width=$((label_width + state_width))
     cat > "$work/$stem.svg" <<SVG
-<svg xmlns="http://www.w3.org/2000/svg" width="175" height="20" role="img" aria-label="$method: $result">
+<svg xmlns="http://www.w3.org/2000/svg" width="$width" height="20" role="img" aria-label="$method: $result">
   <title>$method: $result. Reviewed by Codex at $revision. See linked report for scope and findings.</title>
-  <rect width="175" height="20" rx="3" fill="#555"/>
-  <path fill="$color" d="M91 0h81a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H91z"/>
-  <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,sans-serif" font-size="11">
-    <text x="45.5" y="14">$method</text><text x="133" y="14">$result</text>
+  <defs>
+    <linearGradient id="label" x2="0" y2="100%"><stop stop-color="#444D56"/><stop offset="1" stop-color="#24292E"/></linearGradient>
+    <linearGradient id="state" x2="0" y2="100%"><stop stop-color="$top_color"/><stop offset="1" stop-color="$bottom_color"/></linearGradient>
+    <clipPath id="badge"><rect width="$width" height="20" rx="3"/></clipPath>
+  </defs>
+  <g clip-path="url(#badge)">
+    <path fill="url(#label)" d="M0 0h$label_width v20H0z"/>
+    <path fill="url(#state)" d="M$label_width 0h$state_width v20H$label_width z"/>
+  </g>
+  <path fill="#959DA5" d="M11 3 5 5v5c0 3.5 3.5 6 6 7 2.5-1 6-3.5 6-7V5z"/>
+  <path fill="none" stroke="#303841" stroke-width="1.4" d="m8 10 2 2 4-4"/>
+  <g font-family="'DejaVu Sans',Verdana,Geneva,sans-serif" font-size="11">
+    <g fill="#010101" fill-opacity=".3" aria-hidden="true"><text x="22" y="15">$method</text><text x="$((label_width + 4))" y="15">$result</text></g>
+    <g fill="#fff"><text x="22" y="14">$method</text><text x="$((label_width + 4))" y="14">$result</text></g>
   </g>
 </svg>
 SVG
