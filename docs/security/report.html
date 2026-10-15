@@ -3,39 +3,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Skill Universe — Internal audit report</title>
-  <meta name="description" content="Reproducible internal audit results for Skill Universe, with source identity, evidence and instructions for checking them yourself.">
-  <link rel="stylesheet" href="report.css">
-  <script src="report.js" defer></script>
+  <title>Skill Universe — Audit results</title>
+  <meta name="description" content="Reproducible internal audit results for Skill Universe: reviewed commit, individual checks, evidence and instructions for repeating the assessment.">
+  <meta name="theme-color" content="#111b2e">
+  <link rel="icon" href="../icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="report.css?v=2">
+  <script src="report.js?v=2" defer></script>
 </head>
 <body>
-<header><a href="../index.html">← Skill Universe</a><a href="https://github.com/seliverstov-maxim/skill-universe">Repository ↗</a></header>
-<main>
-  <p class="eyebrow">REPRODUCIBLE INTERNAL AUDIT</p>
-  <h1>Audit report</h1>
-  <p class="intro">We prepared this report ourselves with Codex using the published repository methodologies. You can repeat the review locally, by hand or with an AI agent. This is an internal assessment of the recorded commit, not independent certification.</p>
-  <nav aria-label="Methodologies"><a href="report.html?method=SU-SEC-1">SU-SEC-1 · Security</a><a href="report.html?method=SU-DECL-1">SU-DECL-1 · Declared behavior</a></nav>
-  <section aria-labelledby="results-title">
-    <h2 id="results-title">Results</h2>
-    <p id="loading" role="status">Loading the committed report…</p>
-    <div class="table-wrap"><table><caption>Reviewed source and scope</caption><tbody id="identity"></tbody></table></div>
-    <div class="table-wrap"><table><caption>Code review and observed behavior</caption><thead><tr><th>Criterion</th><th>Code review</th><th>Observed result</th><th>Evidence / limits</th></tr></thead><tbody id="checks"></tbody></table></div>
-    <details><summary>Source inventory and recorded observations</summary><div id="evidence"></div></details>
+<a class="skip" href="#main">Skip to results</a>
+<header class="topbar"><div class="wrap topbar-content"><a class="brand" href="../index.html"><span aria-hidden="true">✳</span> skill-universe <span class="brand-label">/ audit reports</span></a><a href="https://github.com/seliverstov-maxim/skill-universe">View repository ↗</a></div></header>
+<main id="main" class="wrap">
+  <div class="heading"><div><p class="eyebrow">REPRODUCIBLE INTERNAL AUDIT</p><h1 id="report-title">Audit results</h1><p class="subtitle">seliverstov-maxim / skill-universe</p></div><a class="button" id="raw-report" hidden>View result JSON ↗</a></div>
+  <p class="disclosure">Prepared by this project with Codex using a published methodology. Repeat it locally by hand or with an AI agent. <strong>Internal assessment · not independent certification.</strong></p>
+  <nav class="method-tabs" aria-label="Audit methodologies"><a data-method="SU-SEC-1" href="report.html?method=SU-SEC-1">Security <span>SU-SEC-1</span></a><a data-method="SU-DECL-1" href="report.html?method=SU-DECL-1">Declared behavior <span>SU-DECL-1</span></a></nav>
+  <p id="loading" role="status">Loading the committed report…</p>
+  <noscript><p class="notice">JavaScript is needed to display the result data. Read the <a href="security-report.json">security result JSON</a> or <a href="declared-behavior-report.json">declared behavior result JSON</a> directly.</p></noscript>
+  <section id="overview" class="overview" aria-label="Assessment summary" hidden>
+    <div class="verdict"><div id="verdict-mark" class="verdict-mark" aria-hidden="true"></div><div><p class="eyebrow">ASSESSMENT RESULT</p><h2 id="verdict-title"></h2><p id="verdict-description"></p></div></div>
+    <div id="metrics" class="metrics"></div>
   </section>
-  <section aria-labelledby="reproduce-title">
-    <h2 id="reproduce-title">Check it yourself</h2>
+  <section class="panel" aria-labelledby="scope-title"><div class="panel-heading"><h2 id="scope-title">Reviewed source</h2><span class="panel-label">COMMIT-BOUND ASSESSMENT</span></div><dl id="identity" class="identity"></dl></section>
+  <section class="panel" aria-labelledby="results-title">
+    <div class="panel-heading"><h2 id="results-title">Check results</h2><span class="panel-label">SOURCE + OBSERVED EFFECTS</span></div>
+    <p class="panel-intro">Code review and bounded behavior checks are reported separately. Expand a criterion for evidence and limits.</p>
+    <div class="table-wrap"><table><thead><tr><th scope="col">Criterion</th><th scope="col">Code review</th><th scope="col">Observed result</th><th scope="col" id="answer-heading" hidden>Answer</th></tr></thead><tbody id="checks"></tbody></table></div>
+    <p class="table-note">Passed applies only to the stated scope. Not checked never counts as Passed. “No” for Q12 means no undeclared behavior was identified in this assessment.</p>
+  </section>
+  <details class="panel evidence-panel"><summary>Recorded observations &amp; source inventory <span>Evidence</span></summary><div id="evidence" class="evidence-content"></div></details>
+  <section class="panel reproduction" aria-labelledby="reproduce-title">
+    <div class="panel-heading"><h2 id="reproduce-title">Reproduce this assessment</h2><span class="panel-label">PUBLIC PROCEDURE</span></div>
     <ol>
-      <li>Clone the repository. Fetch <code>origin/main</code> and check out its latest commit for a new assessment. To repeat this exact report, check out the full commit recorded in its results table.</li>
-      <li>Read <a href="https://github.com/seliverstov-maxim/skill-universe/blob/main/docs/security/methodology.md">SU-SEC-1</a> and <a href="https://github.com/seliverstov-maxim/skill-universe/blob/main/docs/security/declared-behavior-methodology.md">SU-DECL-1</a> from that same checkout. All instructions and criteria live in the repository.</li>
-      <li>Use <a href="https://github.com/seliverstov-maxim/skill-universe/blob/main/verification/README.md">the isolated verification folder</a> for manual behavior checks. Inspect the real website → installer → Git source chain without executing unreviewed downloaded code.</li>
-      <li>Run the prompt below in a fresh AI session, or follow it yourself. Do not show the reviewer these answers beforehand. Compare the evidence and record any disagreement.</li>
+      <li>Clone the repository and fetch <code>origin/main</code>. Use its latest commit for a new assessment, or check out the full commit above to repeat this exact report.</li>
+      <li>Read <a id="security-method" href="methodology.md">SU-SEC-1</a> and <a id="declared-method" href="declared-behavior-methodology.md">SU-DECL-1</a> from that same checkout. All criteria and instructions live in the repository.</li>
+      <li>Follow <a id="verification-link" href="https://github.com/seliverstov-maxim/skill-universe/blob/main/verification/README.md">the isolated verification instructions</a>. Inspect the actual website → installer → Git source chain without executing unreviewed downloads.</li>
+      <li>Give the prompt below to a fresh AI session, or follow it yourself. Form your own conclusions before reading these answers; compare evidence and record disagreements.</li>
     </ol>
-    <h3>Reusable review prompt</h3>
-    <pre id="prompt">The repository prompt is available below.</pre>
-    <p><a href="review-prompt.txt">Download the same prompt</a>. No prior conversation, private files or hosted service is required for the source review. Live delivery checks require network access; runtime checks require the documented disposable environment.</p>
-    <p class="muted">Passed means the stated checks succeeded within their recorded scope. Not checked is not Passed. A source review and a clean antivirus scan cannot prove the absence of every hidden behavior, certify third-party instructions or guarantee future updates.</p>
+    <details class="prompt-panel"><summary>Review prompt <a href="review-prompt.txt">Plain text ↗</a></summary><pre id="prompt">Loading repository prompt…</pre></details>
+    <p class="limits">A source review, bounded execution and a clean antivirus scan cannot prove the absence of every hidden behavior, certify third-party instructions or guarantee future updates. Untested platforms and interactions remain outside the observed scope.</p>
   </section>
 </main>
-<footer>Internal review · Project-maintained methodology · Reproducible evidence</footer>
+<footer class="wrap footer"><span>Skill Universe · Project-maintained assessment</span><a href="https://github.com/seliverstov-maxim/skill-universe">Source &amp; methodology ↗</a></footer>
 </body>
 </html>
