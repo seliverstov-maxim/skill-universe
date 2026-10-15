@@ -11,10 +11,10 @@ alias=""
 
 for argument in "$@"; do
     case "$argument" in
-        --branch=*) branch=${argument#--branch=} ;;
-        --skill=*) skill=${argument#--skill=} ;;
-        --rule=*) rule=${argument#--rule=} ;;
-        --alias=*) alias=${argument#--alias=} ;;
+        --branch=*) branch=${argument#--branch=}; [ -n "$branch" ] || fail "Branch must not be empty" ;;
+        --skill=*) skill=${argument#--skill=}; name_ok "$skill" ;;
+        --rule=*) rule=${argument#--rule=}; name_ok "$rule" ;;
+        --alias=*) alias=${argument#--alias=}; name_ok "$alias" ;;
         *) printf 'Unknown argument: %s\n' "$argument" >&2; exit 1 ;;
     esac
 done

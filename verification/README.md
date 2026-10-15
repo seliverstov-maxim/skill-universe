@@ -11,7 +11,7 @@ git rev-parse HEAD > "$SKILL_UNIVERSE_VERIFY_DIR/evidence/source-commit.txt"
 git archive HEAD > "$SKILL_UNIVERSE_VERIFY_DIR/source.tar"
 tar -xf "$SKILL_UNIVERSE_VERIFY_DIR/source.tar" -C "$SKILL_UNIVERSE_VERIFY_DIR/source"
 docker build -t skill-universe-verification "$SKILL_UNIVERSE_VERIFY_DIR/source/verification"
-docker run --rm -it --network none --read-only --tmpfs /tmp --tmpfs /work \
+docker run --rm -it --network none --read-only --tmpfs /tmp --tmpfs /work:exec,mode=1777 \
   --mount type=bind,source="$SKILL_UNIVERSE_VERIFY_DIR/source",target=/source,readonly \
   --mount type=bind,source="$SKILL_UNIVERSE_VERIFY_DIR/evidence",target=/evidence \
   skill-universe-verification
