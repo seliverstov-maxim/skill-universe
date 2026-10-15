@@ -1,6 +1,6 @@
 # Skill Universe
 
-A small Unix CLI for installing and updating skills from Git repositories in Codex and Claude.
+A small Unix CLI for installing and updating skills and rules from Git repositories in Codex and Claude.
 
 ## Why
 
@@ -50,16 +50,19 @@ Configure your chosen harnesses:
 skill-universe init --harness=codex,claude
 ```
 
-Install all skills from a repository, or select a skill, branch, and alias:
+Install all skills and rules from a repository, or select one item, a branch, and an alias:
 
 ```sh
 skill-universe install <repo-url>
 skill-universe install <repo-url> --branch=<branch> --skill=<skill-name> --alias=<alias>
+skill-universe install <repo-url> --rule=<rule-name> --alias=<alias>
 ```
 
-The source repository must contain `skills/<skill-name>/SKILL.md`. Without flags, all skills from the default branch are installed, using directory names as aliases.
+Repositories can contain `skills/<skill-name>/SKILL.md` and plain Markdown files at `rules/<rule-name>.md`. No rule frontmatter is required. Without filters, all skills and rules from the default branch are installed. Rule aliases default to filenames without `.md`; skill aliases default to directory names. Aliases are unique across both types. `--skill` and `--rule` are mutually exclusive; `--alias` requires one of them.
 
-Manage installed skills:
+Rules are linked into `~/.codex/rules/` and `~/.claude/rules/` for your configured harnesses. For Codex, the first rule adds an instruction to read the rules directory in `~/.codex/AGENTS.md`, between `<!-- skill-universe:rules:start -->` and `<!-- skill-universe:rules:end -->`. Removing the last rule removes only that block, preserving your other instructions. Claude loads its user rules directory directly.
+
+Manage installed skills and rules:
 
 ```sh
 skill-universe list
@@ -69,7 +72,7 @@ skill-universe update all
 skill-universe remove <alias>
 ```
 
-When skills share a checkout, updating one affects all skills linked to it. Local changes are allowed; if Git cannot fast-forward, you resolve the conflict.
+When skills and rules share a checkout, updating one affects all items linked to it. Local changes are allowed; if Git cannot fast-forward, you resolve the conflict.
 
 Update the tool and view help:
 
@@ -79,4 +82,4 @@ skill-universe --version
 skill-universe --help
 ```
 
-The manifest lives at `~/.skill-universe/manifest.json`; clones live in `~/.skill-universe/repos/`. Harness directories and the Git source for `upgrade` are configurable in the manifest.
+The manifest lives at `~/.skill-universe/manifest.json`; clones live in `~/.skill-universe/repos/`. Harness skill directories (`directory`), rule directories (`rules_directory`), and the Git source for `upgrade` are configurable in the manifest. Existing manifests remain supported; installing the first rule adds the new settings.
