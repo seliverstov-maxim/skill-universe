@@ -1,18 +1,21 @@
 #!/bin/sh
 set -eu
 
-for destination in "$HOME/.skill-universe/tool" "$HOME/.local/bin/skill-universe"; do
+state=${SKILL_UNIVERSE_HOME:-"$HOME/.skill-universe"}
+bin=${SKILL_UNIVERSE_BIN_DIR:-"$HOME/.local/bin"}
+for directory in "$state" "$bin"; do
+    case "$directory" in /*) ;; *) printf 'Expected an absolute path: %s\n' "$directory" >&2; exit 1 ;; esac
+done
+for destination in "$state/tool" "$bin/skill-universe"; do
     if [ -e "$destination" ] || [ -L "$destination" ]; then
         printf 'Destination already exists: %s\n' "$destination" >&2
         exit 1
     fi
 done
 
-git clone "https://github.com/seliverstov-maxim/skill-universe.git" "$HOME/.skill-universe/tool"
-chmod +x "$HOME/.skill-universe/tool/skill-universe"
-mkdir -p "$HOME/.local/bin"
-ln -s "$HOME/.skill-universe/tool/skill-universe" "$HOME/.local/bin/skill-universe"
-
-printf 'Installed: %s/.local/bin/skill-universe\n' "$HOME"
-# shellcheck disable=SC2016 # Print literal profile variables for the user to copy.
-printf 'Add to your shell profile: export PATH="$HOME/.local/bin:$PATH"\n'
+git clone "https://github.com/seliverstov-maxim/skill-universe.git" "$state/tool"
+chmod +x "$state/tool/skill-universe"
+mkdir -p "$bin"
+ln -s "$state/tool/skill-universe" "$bin/skill-universe"
+printf 'Installed: %s/skill-universe\n' "$bin"
+printf 'Add this directory to your PATH: %s\n' "$bin"

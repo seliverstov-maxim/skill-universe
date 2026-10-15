@@ -29,3 +29,5 @@ Write `declared-behavior-report.json` using [report-format.md](report-format.md)
 Passing requires the expected answers, source checks passed, required bounded observations completed, and no open mismatch or unresolved evidence within the recorded scope. No for Q12 means no undeclared behavior was identified in that scoped assessment; it is not a mathematical absence claim. Clipboard interaction, every possible input, other platforms and live consuming-agent behavior must not be represented as exercised if they were not.
 
 For reproduction, independently follow [the repository prompt](review-prompt.txt) at latest fetched main or the exact recorded commit, read all scoped source, then perform the documented disposable scenarios and live read-only delivery check. Record your own answers before reading previous results. List mismatches, documentation defects and disagreements for correction and fresh review.
+
+Before deployment, Q13 may remain incomplete if the real site serves an older installer. Record both revisions/hashes explicitly, with candidate delivery Not checked; do not reinterpret that as Passed. Complete the observation after publication.
