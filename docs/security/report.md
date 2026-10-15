@@ -1,76 +1,76 @@
 # Security review
 
-- Judgment: **Security concerns identified. An unconditional “verified safe” claim is not supported.**
-- Reviewed commit: [`9562183510908bb3c0afb8e185a0acdb2c812121`](https://github.com/seliverstov-maxim/skill-universe/tree/9562183510908bb3c0afb8e185a0acdb2c812121)
+- Judgment: **No actionable security or correctness findings identified in the final fresh-context source review, within the stated scope and trust model.**
+- Status: **Completed source review; committed files match the independently reviewed snapshot.**
+- Reviewed commit: [`9f6b598ba45b76a632d2e4539950e791f899a13b`](https://github.com/seliverstov-maxim/skill-universe/tree/9f6b598ba45b76a632d2e4539950e791f899a13b).
+- Exact source identity: per-file SHA-256 hashes below; source-set SHA-256 `403a5099d11ac4f496d4f7949eac6f8423c7c6a89038539f4ea302b36ba0eee1`.
 - Date: 2026-10-15
-- Reviewer: Codex; also involved in implementation, not an independent auditor
-- Method: [SU-SEC-1, version 2](methodology.md), agent source-code review
+- Reviewers: Codex in four separate fresh contexts; fixes applied by the implementing agent. Context separation does not make this an independent organization audit.
+- Procedure: [SU-SEC-1, version 3](methodology.md). The unchanged R01–R08 checklist was applied with the maintainer-requested clean-context draft workflow now documented in this version.
 
-This is the single current report. It assesses committed application source at the SHA above. The replacement methodology and this report are documentation changes added afterward. The old audit runner and its recorded results are excluded from application coverage and removed by this documentation change. The conclusions below come from reading code; no runtime checks, scanners, or platform execution form part of this assessment.
+This is the single current report. The implementing agent read every covered committed file and compared its SHA-256 with the frozen snapshot reviewed by the final fresh-context agent; all matched. This report and methodology are published in a later documentation commit. The subsequently added OpenSSF workflow and README badge are outside this application-source review; their external result is separate from this assessment. Conclusions do not automatically extend to later revisions.
 
-## Assessment
+## Review process and outcome
 
-No telemetry endpoint, analytics integration, or separate payload execution was identified in the reviewed application source. Command dispatch is fixed; arguments passed to jq use data parameters; installed Markdown is linked rather than executed by the installer. The website's active script writes the displayed installation command to the clipboard after a click.
+Each reviewer received the source location, intended behavior and checklist in a new context, without the implementation conversation. Reviewers were instructed not to read this report, local review notes, Git history/diffs or earlier findings. Application source stayed unchanged during each pass.
 
-The implementation nevertheless has filesystem and instruction-integrity weaknesses. Use assumes trusted repositories, ordinary aliases, and an intact local configuration; even then, rename can replace an unmanaged destination. Git, shell, jq, agent behavior, and future branch contents are outside this assessment. This review does not justify claiming that installing arbitrary repositories is safe.
+The first pass identified potential overwriting of ignored local files by Git updates; guarded merges now refuse that overwrite. The second found successful installation when an explicit selector matched nothing; that now fails. The third found omission of valid dot-prefixed item names; discovery now includes them. The fourth read the complete resulting source and identified no actionable finding.
 
-## Coverage and checklist
+Earlier path, collision, source-link and managed-block concerns are addressed by the controls below. State operations now have serialization, backups, rollback and explicit Git recovery handling. This is a source-based assessment, with no runtime, cross-platform, scanner, or test results offered as security evidence.
 
-Files read: `skill-universe`; all ten files under `commands/` (`init`, `install`, `list`, `rename`, `update`, `remove`, `upgrade`, `version`, `help`, `codex-rules`); `install.sh`; `docs/install.sh`; `docs/index.html`; `docs/style.css`; `docs/icon.svg`; `docs/sitemap.xml`; `VERSION`; and README for intended behavior. There are no runtime package dependencies declared in the reviewed tree beyond external commands.
+## Coverage and conclusions
+
+Read completely: dispatcher; all eleven `commands/*.sh` files including the shared helper; both installers; README and VERSION; full website HTML, CSS, SVG and sitemap; and the review checklist. Published/local review reports and unrelated files were excluded from reviewer input. The required project file `/Users/maxim/work/skill-universe/AGENTS.local.md` was absent; no sibling project's instructions were substituted.
 
 | Item | Result | Source-based reasoning |
 | --- | --- | --- |
-| R01: undeclared communication | No issue identified | Network operations in the CLI and installers are Git source discovery, clone, and pull. Website assets are local and its active script only handles clipboard copying. Git's own transports and configuration are outside scope. |
-| R02: code injection | No issue identified | Dispatcher accepts a fixed command set. Input variables are quoted in subprocess calls, jq values use `--arg`, and no eval or execution of downloaded skill/rule scripts appears in the application source. See [dispatcher](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/skill-universe), [install](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/install.sh), and [website script](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/docs/index.html#L77-L90). |
-| R03: path confinement | Issue identified | Aliases are appended to destination paths without basename validation; remove/rename do not require a registered source alias. SU-01. |
-| R04: source links | Issue identified | File checks follow source symlinks, and resolved targets are not confined to the checkout. SU-03. |
-| R05: unrelated files | Issue identified | Rename checks manifest aliases but not unmanaged destination files. SU-02. Bootstrap and install also lack a complete destination-symlink policy; see unresolved details below. |
-| R06: personal instructions | Issue identified | The deletion range is not validated for a matching end marker. SU-04. |
-| R07: updates and failure handling | Issue identified | Pull uses `--ff-only`, with no explicit reset/stash in the code. Shared temporary filenames and sequential filesystem/state writes lack transaction or concurrency controls. SU-05. No general preservation guarantee follows from `--ff-only`. |
-| R08: update trust | No issue identified within stated trust model | Bootstrap clones the public tool repository, and upgrade pulls the configured source. Both are explicit operations, but moving branches do not authenticate future code as reviewed. See [installer](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/install.sh) and [upgrade](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/upgrade.sh). |
+| R01: undeclared communication | No issue identified | [Install](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/commands/install.sh), [update](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/commands/update.sh) and [upgrade](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/commands/upgrade.sh) use explicit Git sources. [Website](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/docs/index.html) resources are local; its active script only copies the displayed command after a click. No telemetry sender or additional executable resource was identified. |
+| R02: code injection | No issue identified | [Dispatcher](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/skill-universe) accepts a fixed command set. Shell arguments are quoted, jq input values use data parameters, and downloaded skills/rules are linked rather than executed. Shared code is loaded from the tool's own source directory. |
+| R03: path confinement | No issue identified | [Common helper](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/commands/common.sh) restricts names to single safe components. Remove/rename require registered entries and symlinks matching the recorded source before mutation. Selectors only filter immediate discovered entries. |
+| R04: source links | No issue identified | Install rejects symlinks anywhere under skills/rules, including root directories and nested resources. Update validates the incoming Git tree and existing local resources before merge. Installer-created delivery symlinks are distinct from prohibited source links. |
+| R05: unrelated files | No issue identified | Install, rename and [bootstrap](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/install.sh) reject occupied destinations, including directories and dangling links. Rename uses no-overwrite behavior. Files and links affected by state commands have backups; substituted installed paths are rejected. |
+| R06: personal instructions | No issue identified | [Block helper](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/commands/codex-rules.sh) rejects unbalanced, repeated or nested markers and symlinked AGENTS.md. Content is prepared separately and replaced without truncating the original first; removal applies only to a validated block. |
+| R07: updates and failure handling | No issue identified within documented guarantees | Mutating commands share a lock and private transaction directory; ordinary failures trigger file rollback. Git merges explicitly use fast-forward-only, no automatic stash and no overwrite of ignored files. Each successful checkout update checkpoints manifest state. Failed/interrupted Git changes retain recovery information rather than automatically resetting development files. |
+| R08: executable trust | No issue identified within stated trust model | Bootstrap and upgrade deliberately trust the selected executable source. The README discloses mutable updates, trusted dependencies, instruction trust and recovery limits. The reviewed commit is distinguished from mutable source branches. |
 
-## Findings
+The ignored-file behavior and its guard are documented in [Git's merge options](https://git-scm.com/docs/git-merge#Documentation/git-merge.txt---no-overwrite-ignore).
 
-These are source-based conclusions, not claims of executed exploits. Priorities are contextual judgments, not computed CVSS scores.
+## Remaining boundaries
 
-### SU-01 — Aliases can address paths outside installation directories
+- The OS, shell, Git, jq and local executable/configuration environment are trusted dependencies, not audited implementations.
+- Skills and rules can instruct an agent to take unsafe actions. The tool distributes them; it does not sandbox or certify their contents.
+- Bootstrap and upgrades can obtain future code that differs from this reviewed revision.
+- The lock coordinates Skill Universe's mutating commands, not arbitrary processes of the same OS account. Concurrent external edits are outside its isolation guarantee.
+- SIGKILL, power loss and storage failure cannot guarantee an automatic rollback. Retained backups/lock and the [README recovery procedure](https://github.com/seliverstov-maxim/skill-universe/blob/9f6b598ba45b76a632d2e4539950e791f899a13b/README.md#file-safety-and-recovery) support manual reconciliation; complete Git/filesystem crash atomicity is not claimed. Failed Git merges, including ordinary conflicts, deliberately retain recovery state.
+- Static reading can miss defects. No actionable finding means none was identified in this review, not proof that none can exist. Syntax checking performed during implementation is not a security certification.
 
-**Medium.** A user must supply a crafted alias. [Install lines 61–76](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/install.sh#L61-L76) append the alias to a harness directory without rejecting path components. [Remove lines 6–13](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/remove.sh#L6-L13) default to a skill even when no manifest entry exists, then pass the constructed path to rm. An alias such as `../../outside.txt` can therefore address an existing file outside the skill directory. [Rename lines 17–19](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/rename.sh#L17-L19) construct paths in the same way.
+## Exact reviewed source
 
-This is not an ordinary repository author choosing a simple filename. Require single-component aliases and registered entries before remove/rename operations. Classification: [CWE-22](https://cwe.mitre.org/data/definitions/22.html).
+SHA-256 values identify file contents, not runtime behavior or file permissions. The source-set fingerprint hashes the UTF-8 concatenation of sorted lines `hash`, two spaces, relative path, newline. Review methodology and this report are procedure/output documents, outside that application-source fingerprint.
 
-### SU-02 — Rename can replace an unmanaged file
+| File | SHA-256 |
+| --- | --- |
+| `README.md` | `1825e80842d5a675f72aa562be60379616e465a555196f49d585261b24e7b169` |
+| `VERSION` | `e9dd8507f4bf0c6f42458e41aea833ad0bd3f6127272335eee9bf4d58541ed67` |
+| `commands/codex-rules.sh` | `be90e2f7ab30d6db6d5777b9e5607ce2db69f92021388fca556887d1d5551fac` |
+| `commands/common.sh` | `ce9574d7341dcc29a6655416bc3ee83bab6f9598aef8376c9c779f1a08d951b1` |
+| `commands/help.sh` | `d8c974da6bff82aeb41acf70f698d1eaf6a6d991529cf79e53331f24c0ecd7bc` |
+| `commands/init.sh` | `6a8ca6423f6d8b4ede6d63d3ca103ed3ccbcb25eb0e7700dc123f510eb99e5ea` |
+| `commands/install.sh` | `faadde4272c5c8dfc6683d94bc41b38816bc813e6ee8d73929f35ebcd4db2832` |
+| `commands/list.sh` | `9e6c21fa2fc8615aa2ea8f57c9180e2c50c7e0d75042510df1c868d6679bdd4d` |
+| `commands/remove.sh` | `aa930fdd1058873e5e12db11a58f3cea0345b279b2e9348bf089e4804f0f03a4` |
+| `commands/rename.sh` | `847082f63c7f3fe6f84518d1d4ae7e24371b3093ae57beede23e04dcceb4e046` |
+| `commands/update.sh` | `8453f8f4c1aa452291eefee2232b11152704f07ec6af036dad6dec11edfd8c21` |
+| `commands/upgrade.sh` | `1eeebcc340aea5cd1ac4acabe854db7bab69fa3c6da98302de8be9eefa99f142` |
+| `commands/version.sh` | `f8073966e183f2d5256310ab225cd1fcd33ebd552bfb0548bcbaaea79ff91d78` |
+| `docs/icon.svg` | `4caf6a04bceea2ed9b32a60300831df0210e4fd7a8bd8afd047fd3bc1f72ef98` |
+| `docs/index.html` | `5d5d9fb0f89089e1a30f909b9914f11628e092a3792e43d7eb36bb46836f58eb` |
+| `docs/install.sh` | `be102e35885cd46a097955e6f3b02361635f523183d40baa520c79a5c65c0ef1` |
+| `docs/sitemap.xml` | `7e1bee0bfcdb32c30705ec7d5a611f343263fe2af68a4b6ea688a40e890394e1` |
+| `docs/style.css` | `9b8e57751dc34ac621219db752a8e5fc570da9e8386953d3391924668986ee13` |
+| `install.sh` | `be102e35885cd46a097955e6f3b02361635f523183d40baa520c79a5c65c0ef1` |
+| `skill-universe` | `df952232f6c1fe9eccd8ca5f12a48c27f4c3768e11bc21bd98cc3ea852edc47a` |
 
-**Medium.** A personal file must already occupy the new alias path. [Rename lines 12–19](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/rename.sh#L12-L19) reject only aliases recorded in the manifest, then call mv. Renaming a rule to the stem of an existing regular `.md` file can replace that file with the installed link.
+## Repeat or challenge the review
 
-Check actual destinations, including dangling links, before moving installed entries in any harness.
-
-### SU-03 — Source symlinks can expose host files as rules
-
-**Medium.** A repository author can supply a rule symlink aimed outside the checkout; its target must exist on the user's host. [Install lines 44–54](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/install.sh#L44-L54) use file checks that follow symlinks; [line 76](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/install.sh#L76) links the accepted path into the harness without resolving its boundary. A relative link such as `rules/host.md -> ../../../../private.md` can resolve outside the normal cached checkout. Skill source directories need the same examination.
-
-This makes external file content available through the installed instruction path. Actual agent reads or exfiltration are not established by source review. Constrain resolved sources and parent directories to the checkout, or reject external source links. Classification: [CWE-61](https://cwe.mitre.org/data/definitions/61.html).
-
-### SU-04 — An incomplete managed block can remove personal instructions
-
-**Low.** A user or local process must have removed the end marker. [Codex block removal lines 18–19](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/codex-rules.sh#L18-L19) delete a sed range from the start marker to the end marker without checking that the latter exists. With no end marker, the range extends to EOF, including subsequent personal text.
-
-Leave AGENTS.md unchanged when a complete managed block cannot be identified.
-
-### SU-05 — State changes are not transactional
-
-**Low.** Interruption, an error partway through an operation, or concurrent commands can leave links and manifest state inconsistent. [Install lines 73–87](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/install.sh#L73-L87) create links before recording the entry. [Rename](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/rename.sh#L17-L24) and [remove](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/remove.sh#L11-L17) also mutate filesystem entries before committing state. Writers reuse `manifest.json.tmp` without locking. [Codex block removal](https://github.com/seliverstov-maxim/skill-universe/blob/9562183510908bb3c0afb8e185a0acdb2c812121/commands/codex-rules.sh#L18-L20) similarly uses a fixed temporary file and truncates the destination before copying completes.
-
-These are visible failure paths; their frequency and platform-specific consequences are not established. Document the limitation or introduce coordinated writes and recovery if stronger preservation is required. No cross-user privilege escalation is claimed.
-
-## Unresolved details and limits
-
-Destination symlinks and pre-existing directories are not consistently checked before ln/mv operations. These utilities can interpret a destination directory as a container, potentially creating a nested entry instead of the intended alias. The full consequences across symlink configurations and platforms remain unresolved by this review.
-
-The reviewed shell scripts do not audit Git credential helpers, transports, configured hooks, or other user/environment configuration. Reading them does not establish the behavior of those dependencies. Downloaded Markdown may contain unsafe instructions; distributing it does not vet or sandbox it.
-
-The source contains no explicit background service, scheduler, or telemetry sender. That observation covers the reviewed application files only. A later installer download, upgrade, third-party repository, or dependency can differ.
-
-## Repeat the review
-
-Read [the methodology](methodology.md), inspect the immutable source links above, trace each checklist item, and replace this report with an independently reasoned assessment of the desired full commit SHA. No test runner or scanner is required. Record disagreements with source evidence and clearly distinguish established code behavior from unresolved runtime questions.
+Follow [the methodology](methodology.md) in a fresh context, identify this exact source snapshot (or a new full commit SHA), and read all covered files. Do not give the reviewer the findings above before it completes its own assessment. Replace this report if source evidence changes the conclusion. No test runner or scanner is required.

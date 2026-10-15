@@ -1,0 +1,25 @@
+name: OpenSSF Scorecard
+
+on:
+  push:
+    branches: [main]
+
+permissions: read-all
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Publish OpenSSF Scorecard results
+        uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e
+        with:
+          results_file: scorecard.json
+          results_format: json
+          publish_results: true

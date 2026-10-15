@@ -1,5 +1,7 @@
 # Skill Universe
 
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge)](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe)
+
 A small Unix CLI for installing and updating skills and rules from Git repositories in Codex and Claude.
 
 ## Why
@@ -134,4 +136,6 @@ This provides rollback and recoverable state, not an atomic transaction across G
 
 ## Security verification
 
-See the [current security review](docs/security/report.md) for the reviewed commit, open findings, methodology, and source-based reasoning. This is a Codex-assisted review of a specific revision, not a claim that all versions or third-party skills and rules are safe.
+See the [current security review](docs/security/report.md) for the reviewed commit, findings, methodology, and source-based reasoning. This is a Codex-assisted review of a specific revision, not a claim that all versions or third-party skills and rules are safe.
+
+The OpenSSF Scorecard badge links to an external assessment of repository security practices. It is separate from the source review and does not certify the safety of every version or installed skill. Results are published by the official Scorecard Action after pushes to `main`.
