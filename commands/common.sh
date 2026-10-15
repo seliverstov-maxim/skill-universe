@@ -2,6 +2,7 @@
 # Shared validation and rollback for commands that change user state.
 set -eu
 umask 077
+. "$(dirname "$0")/paths.sh"
 
 fail() { printf '%s\n' "$*" >&2; exit 1; }
 name_ok() {
@@ -106,7 +107,6 @@ managed_link() {
     [ "$(readlink "$1")" = "$state/repos/$checkout_id/$path" ] || fail "Installed link target was changed: $1"
 }
 
-state="$HOME/.skill-universe"
 mkdir -p "$state"
 mkdir "$state/lock" 2>/dev/null || fail "Another command is running, or recovery is needed: $state/lock"
 # Install the trap before creating temporary state.

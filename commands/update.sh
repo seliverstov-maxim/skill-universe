@@ -2,7 +2,7 @@
 set -eu
 . "$(dirname "$0")/common.sh"
 
-manifest="$HOME/.skill-universe/manifest.json"
+manifest="$state/manifest.json"
 if [ "$1" = all ]; then
     aliases=$(jq -r '(.skills + (.rules // {})) | to_entries | unique_by([.value.url, .value.branch]) | .[].key' "$manifest")
 else
@@ -15,7 +15,7 @@ while IFS= read -r alias; do
     url=$(jq -er --arg alias "$alias" '(.skills + (.rules // {}))[$alias].url' "$manifest")
     branch=$(jq -er --arg alias "$alias" '(.skills + (.rules // {}))[$alias].branch' "$manifest")
     checkout_id=$(printf '%s\n%s\n' "$url" "$branch" | git hash-object --stdin)
-    checkout="$HOME/.skill-universe/repos/$checkout_id"
+    checkout="$state/repos/$checkout_id"
 
     git -C "$checkout" fetch -- "$url" "$branch"
     candidate=$(git -C "$checkout" rev-parse FETCH_HEAD)

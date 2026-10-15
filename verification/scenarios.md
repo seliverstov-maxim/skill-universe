@@ -1,0 +1,21 @@
+# Manual scenarios
+
+Run inside the disposable container after setup. The tool is `/work/state/tool/skill-universe`; the skill repository URL is `file:///work/remote.git`. Use a fresh container when starting over. Record commands, exit codes and relevant before/after paths in `/evidence`; the table below specifies expectations, not observed results.
+
+| Scenario | Commands and observations |
+| --- | --- |
+| Help and version | Run the tool with `--help` and `--version`; compare with `commands/help.sh` and VERSION. |
+| Init | Run `init --harness=codex,claude`. Inspect `/work/state/manifest.json`; it must have empty item maps, both configured harnesses and declared upgrade source. Repeating init must fail without changing it. |
+| Delivery | Run `install file:///work/remote.git`. Inspect both harness skill/rule directories with `find` and `readlink`. Links must point into the state repository cache, and the manifest must list both skills and the rule. `/work/payload-executed` must not exist. |
+| Instructions | Compare `/work/codex/AGENTS.md` with its personal sentinel: one managed block is added; removing the final rule removes only that block. |
+| Selection and aliases | A duplicate install must fail. Install one selected skill with `--skill=example-skill --alias=custom`, list it, rename custom to renamed, then remove it. Check links and manifest after each step. A missing selector and explicitly empty --skill=, --rule=, --alias= or --branch= must fail without installing all items. |
+| Unsafe names and destinations | `--alias=../escape` must fail. Place a sentinel at an unused destination and attempt installation to that alias; it must fail and preserve the sentinel. Replace a registered installation link and attempt removal: it must be refused. |
+| Source symlinks | Commit a symlink under skills/ or rules/ in the author fixture, push to `/work/remote.git`, and attempt install/update. It must be rejected without making the candidate tree visible. |
+| Update and shared checkout | Edit and commit fixture content, push main, then run `update <alias>` and `update all`. Check all links sharing the checkout see the update and their manifest commit values agree. |
+| Local changes and ignored files | Edit a cached tracked file; an incoming conflicting update must fail without losing it. Separately create an ignored local file that the next upstream commit would overwrite; update must refuse and retain it. Inspect retained lock/backups and follow README recovery before another command. |
+| Rollback and malformed markers | Make the managed AGENTS.md block malformed, try another rule installation, and compare manifest/links/personal bytes with the prior snapshot. It must fail and preserve prior state. A direct AGENTS.md symlink must also be refused. |
+| Bootstrap | In this container only, set `GIT_CONFIG_GLOBAL=/work/gitconfig` and use Git's `url.<file:///work/tool-upstream.git>.insteadOf` setting to redirect the declared public clone URL to the local fixture. Run `/source/install.sh` with `SKILL_UNIVERSE_HOME=/work/bootstrap` and `SKILL_UNIVERSE_BIN_DIR=/work/bin`; inspect checkout/link and repeat to verify refusal of occupied destinations. This does not validate the live public Git transport. |
+| Upgrade | Set the test manifest upgrade URL to `file:///work/tool-upstream.git`. Commit a VERSION change in `/work/tool-author`, push it to the bare fixture, run upgrade and inspect tool HEAD/version. Conflicting local changes must be preserved and recovery state retained on failure. |
+| Scope limits | Record any commands, flags, failure modes, signals, platforms or external integrations not actually exercised. No blanket claim follows from these bounded scenarios. |
+
+For the public installation chain, take the canonical website URL from `docs/index.html`; read its actual install command, resolve/download its script without executing it, compare bytes with the reviewed `docs/install.sh` and root installer, and inspect the Git source/revision and any secondary executable downloads. Record UTC time, effective URLs, hashes and the fetched default-branch HEAD. A mismatch or unreachable endpoint is not Passed. Mutable remote sources can change after inspection.

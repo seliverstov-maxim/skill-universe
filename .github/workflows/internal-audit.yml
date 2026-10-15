@@ -19,4 +19,4 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       - name: Check report coverage and generated badge
-        run: python3 scripts/generate-audit-badge.py --check
+        run: sh scripts/generate-audit-badges.sh --check

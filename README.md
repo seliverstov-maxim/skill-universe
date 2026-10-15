@@ -2,12 +2,15 @@
 
 A small Unix CLI for installing and updating skills and rules from Git repositories in Codex and Claude.
 
-[![Internal audit](docs/security/audit.svg)](docs/security/report.md)
+[![SU-SEC-1](docs/security/security-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-SEC-1)
+[![SU-DECL-1](docs/security/declared-behavior-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-DECL-1)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge)](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe)
 [![CodeQL](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml)
 [![ShellCheck](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml)
 [![Gitleaks](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/gitleaks.yml)
 [![zizmor](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml)
+
+[![ClamAV](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/clamav.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/clamav.yml)
 
 ## Why
 
@@ -32,21 +35,24 @@ The installer clones the tool into `~/.skill-universe/tool/` and creates a comma
 #!/bin/sh
 set -eu
 
-for destination in "$HOME/.skill-universe/tool" "$HOME/.local/bin/skill-universe"; do
+state=${SKILL_UNIVERSE_HOME:-"$HOME/.skill-universe"}
+bin=${SKILL_UNIVERSE_BIN_DIR:-"$HOME/.local/bin"}
+for directory in "$state" "$bin"; do
+    case "$directory" in /*) ;; *) printf 'Expected an absolute path: %s\n' "$directory" >&2; exit 1 ;; esac
+done
+for destination in "$state/tool" "$bin/skill-universe"; do
     if [ -e "$destination" ] || [ -L "$destination" ]; then
         printf 'Destination already exists: %s\n' "$destination" >&2
         exit 1
     fi
 done
 
-git clone "https://github.com/seliverstov-maxim/skill-universe.git" "$HOME/.skill-universe/tool"
-chmod +x "$HOME/.skill-universe/tool/skill-universe"
-mkdir -p "$HOME/.local/bin"
-ln -s "$HOME/.skill-universe/tool/skill-universe" "$HOME/.local/bin/skill-universe"
-
-printf 'Installed: %s/.local/bin/skill-universe\n' "$HOME"
-# shellcheck disable=SC2016 # Print literal profile variables for the user to copy.
-printf 'Add to your shell profile: export PATH="$HOME/.local/bin:$PATH"\n'
+git clone "https://github.com/seliverstov-maxim/skill-universe.git" "$state/tool"
+chmod +x "$state/tool/skill-universe"
+mkdir -p "$bin"
+ln -s "$state/tool/skill-universe" "$bin/skill-universe"
+printf 'Installed: %s/skill-universe\n' "$bin"
+printf 'Add this directory to your PATH: %s\n' "$bin"
 ```
 
 Check that the command is available:
@@ -139,3 +145,15 @@ After forced termination, power loss, a failed Git operation, or failed rollback
 4. Once files and state agree, remove the recovered transaction directory and the empty lock directory. Commands can then run again.
 
 This provides rollback and recoverable state, not an atomic transaction across Git, multiple filesystems, or power failure. Only install repositories whose instructions you trust; the tool does not sandbox skills or rules.
+
+## Configurable locations
+
+| Environment variable | Purpose |
+| --- | --- |
+| `SKILL_UNIVERSE_HOME` | State, manifest, repository cache and tool checkout; default `~/.skill-universe`. |
+| `SKILL_UNIVERSE_BIN_DIR` | Installer command directory; default `~/.local/bin`. |
+| `SKILL_UNIVERSE_CODEX_AGENTS_FILE` | Managed Codex instruction file; default `~/.codex/AGENTS.md`. |
+| `SKILL_UNIVERSE_CODEX_SKILLS_DIR` / `SKILL_UNIVERSE_CODEX_RULES_DIR` | Codex paths stored by `init`. |
+| `SKILL_UNIVERSE_CLAUDE_SKILLS_DIR` / `SKILL_UNIVERSE_CLAUDE_RULES_DIR` | Claude paths stored by `init`. |
+
+State, installer and AGENTS.md overrides must be absolute paths. Harness paths may be absolute or start with `~/`; their environment overrides apply when creating a manifest. For an existing manifest, edit its `directory` and `rules_directory` values. Keep the state and AGENTS.md overrides consistent across commands. These settings do not isolate code execution: use the [verification environment](verification/README.md) for untrusted execution.
