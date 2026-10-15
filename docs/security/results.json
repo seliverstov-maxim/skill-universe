@@ -1,0 +1,1675 @@
+{
+  "reviewed_commit": "0b0b6d1b47dc631577e6aac62d5107bc5ba248f4",
+  "procedure": "SU-SEC-1 v1",
+  "review_date": "2026-10-15",
+  "reviewer": "Codex (AI-assisted review)",
+  "reproducer_sha256": "b36bf82aaf00726b9b8d619a7f8d42d6595f07d36e3268b78d6f03530c801d42",
+  "macos": {
+    "reviewed_commit": "0b0b6d1b47dc631577e6aac62d5107bc5ba248f4",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "python": "3.14.7",
+    "tools": {
+      "git": "git version 2.54.0 (Apple Git-157)",
+      "jq": "jq-1.8.1"
+    },
+    "source_sha256": {
+      "skill-universe": "df952232f6c1fe9eccd8ca5f12a48c27f4c3768e11bc21bd98cc3ea852edc47a",
+      "install.sh": "64a2665f2601ebd88755748d52c02aec52e0943689d87f6446482e8b799c9e57",
+      "VERSION": "e9dd8507f4bf0c6f42458e41aea833ad0bd3f6127272335eee9bf4d58541ed67",
+      "commands/codex-rules.sh": "10ad3d448239bdb8b067b37bde4b1cefeb45453d76e3bd92bfe71a06791abd6a",
+      "commands/help.sh": "d8c974da6bff82aeb41acf70f698d1eaf6a6d991529cf79e53331f24c0ecd7bc",
+      "commands/init.sh": "cb0ecedf033c4cd01e93cd6206235b0e9b473adb0da76b1220c538d7cdd7aef3",
+      "commands/install.sh": "88be5587e85adefd196992fc29ec08bd4df9d630356b59ce14ca207e3e8c71b3",
+      "commands/list.sh": "9e6c21fa2fc8615aa2ea8f57c9180e2c50c7e0d75042510df1c868d6679bdd4d",
+      "commands/remove.sh": "2b2aea5f859e526ce18caaf02a64b8a76394ccebc1de2ae9550ff59e8f1e8957",
+      "commands/rename.sh": "1782bfc16da8f999ca9b315b5d1a11aa5f28b03e2837c82b00b35703099c04ff",
+      "commands/update.sh": "523cb3327c6fcf8141b787fc46cd04d97e33b24f05c054045d78e2a5701bd837",
+      "commands/upgrade.sh": "68aa22ce2c98eb3720ad6bb1bc7ac671a5e6c30ed4bc54916bf47f9b9580d058",
+      "commands/version.sh": "f8073966e183f2d5256310ab225cd1fcd33ebd552bfb0548bcbaaea79ff91d78",
+      "docs/install.sh": "64a2665f2601ebd88755748d52c02aec52e0943689d87f6446482e8b799c9e57",
+      "docs/index.html": "ed92966d314254571dff7ab2f90726ece7aa85335010eebdf004d9c8e6fd9c94",
+      "docs/style.css": "7a89bbd09e86a6b5dc2ba808f261611746fa19a0daa2b0b5459b14a6bdb3d93f",
+      "docs/icon.svg": "4caf6a04bceea2ed9b32a60300831df0210e4fd7a8bd8afd047fd3bc1f72ef98",
+      "docs/sitemap.xml": "7e1bee0bfcdb32c30705ec7d5a611f343263fe2af68a4b6ea688a40e890394e1"
+    },
+    "checks": [
+      {
+        "id": "C01",
+        "property": "Alias text is not evaluated as shell code",
+        "status": "PASS",
+        "evidence": {
+          "exit": 0,
+          "literal_link_created": true,
+          "shell_marker_created": false
+        }
+      },
+      {
+        "id": "C02",
+        "property": "Repository payload scripts are not executed during install",
+        "status": "PASS",
+        "evidence": "Fixture postinstall.sh was delivered without execution."
+      },
+      {
+        "id": "C03",
+        "property": "Remove cannot escape its installation directory",
+        "status": "FAIL",
+        "evidence": {
+          "exit": 0,
+          "outside_file_exists": false,
+          "alias_registered": false
+        }
+      },
+      {
+        "id": "C04",
+        "property": "Install aliases cannot escape their installation directory",
+        "status": "FAIL",
+        "evidence": {
+          "outside_symlink_created": true,
+          "location": "~/.agents/outside"
+        }
+      },
+      {
+        "id": "C05",
+        "property": "Rename preserves existing unmanaged destination files",
+        "status": "FAIL",
+        "evidence": {
+          "destination_is_symlink": true,
+          "original_contents_preserved": false
+        }
+      },
+      {
+        "id": "C06",
+        "property": "Installed repository rules resolve inside their Git checkout",
+        "status": "FAIL",
+        "evidence": {
+          "rule_resolves_to_host_file": true,
+          "file_content_exposed_as_rule": true
+        }
+      },
+      {
+        "id": "C07",
+        "property": "Normal rule removal preserves personal AGENTS.md text",
+        "status": "PASS",
+        "evidence": {
+          "block_count": 1,
+          "block_retained_until_last_rule": true,
+          "personal_text_retained": true
+        }
+      },
+      {
+        "id": "C08",
+        "property": "An incomplete managed block does not delete following personal text",
+        "status": "FAIL",
+        "evidence": {
+          "personal_text_after_missing_end_marker_retained": false
+        }
+      },
+      {
+        "id": "C09",
+        "property": "Duplicate aliases are rejected without changing the manifest",
+        "status": "PASS",
+        "evidence": {
+          "exit": 1,
+          "manifest_unchanged": true
+        }
+      },
+      {
+        "id": "C10",
+        "property": "Conflicting updates preserve local edits and manifest",
+        "status": "PASS",
+        "evidence": {
+          "exit": 1,
+          "local_edit_preserved": true,
+          "manifest_unchanged": true
+        }
+      },
+      {
+        "id": "C13",
+        "property": "Bootstrap installs the expected tool and command symlink",
+        "status": "PASS",
+        "evidence": "Ran the actual installer with Git URL rewriting to a local copy of the reviewed source; no HTTPS request."
+      },
+      {
+        "id": "C14",
+        "property": "Bootstrap preserves an existing regular command file",
+        "status": "PASS",
+        "evidence": {
+          "exit": 1,
+          "existing_file_preserved": true
+        }
+      },
+      {
+        "id": "C15",
+        "property": "Upgrade obtains the configured tool source",
+        "status": "PASS",
+        "evidence": "Actual upgrade ran against a local Git fixture; source trust remains the user responsibility."
+      },
+      {
+        "id": "C11",
+        "property": "All distributed shell files parse successfully",
+        "status": "PASS",
+        "evidence": {
+          "files_checked": 13
+        }
+      },
+      {
+        "id": "C12",
+        "property": "The Pages installer matches the root installer",
+        "status": "PASS",
+        "evidence": "Compared bytes of both distributed installer copies."
+      }
+    ],
+    "transcript": [
+      {
+        "command": [
+          "git",
+          "init",
+          "-b",
+          "main",
+          "<sandbox>/source"
+        ],
+        "exit": 0,
+        "stdout": "Initialized empty Git repository in /private<sandbox>/source/.git/\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/source",
+          "add",
+          "."
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/source",
+          "-c",
+          "user.name=Security replay",
+          "-c",
+          "user.email=replay@example.invalid",
+          "commit",
+          "-m",
+          "Local fixture"
+        ],
+        "exit": 0,
+        "stdout": "[main (root-commit) 0415f2e] Local fixture\n 4 files changed, 7 insertions(+)\n create mode 120000 rules/host.md\n create mode 100644 rules/style.md\n create mode 100644 skills/demo/SKILL.md\n create mode 100644 skills/demo/scripts/postinstall.sh\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/literal/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--skill=demo",
+          "--alias=literal-$(touch SHELL_EXECUTED)"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/literal/.agents/skills/literal-$(touch SHELL_EXECUTED)\n",
+        "stderr": "Cloning into '<sandbox>/literal/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/payload/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--skill=demo"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/payload/.agents/skills/demo\n",
+        "stderr": "Cloning into '<sandbox>/payload/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/remove-traversal/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "remove",
+          "../../outside.txt"
+        ],
+        "exit": 0,
+        "stdout": "Removed: ../../outside.txt\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/install-traversal/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--skill=demo",
+          "--alias=../outside"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/install-traversal/.agents/skills/../outside\n",
+        "stderr": "Cloning into '<sandbox>/install-traversal/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/rename-collision/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/rename-collision/.codex/rules/style.md\n",
+        "stderr": "Cloning into '<sandbox>/rename-collision/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "rename",
+          "style",
+          "personal"
+        ],
+        "exit": 0,
+        "stdout": "Renamed: style -> personal\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/source-symlink/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=host"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/source-symlink/.codex/rules/host.md\n",
+        "stderr": "Cloning into '<sandbox>/source-symlink/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/managed-block/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/managed-block/.codex/rules/style.md\n",
+        "stderr": "Cloning into '<sandbox>/managed-block/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style",
+          "--alias=second"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/managed-block/.codex/rules/second.md\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "remove",
+          "style"
+        ],
+        "exit": 0,
+        "stdout": "Removed: style\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "remove",
+          "second"
+        ],
+        "exit": 0,
+        "stdout": "Removed: second\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/incomplete-block/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/incomplete-block/.codex/rules/style.md\n",
+        "stderr": "Cloning into '<sandbox>/incomplete-block/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "remove",
+          "style"
+        ],
+        "exit": 0,
+        "stdout": "Removed: style\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/duplicate/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--skill=demo"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/duplicate/.agents/skills/demo\n",
+        "stderr": "Cloning into '<sandbox>/duplicate/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style",
+          "--alias=demo"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "Alias already installed: demo\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/conflict/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/conflict/.codex/rules/style.md\n",
+        "stderr": "Cloning into '<sandbox>/conflict/.skill-universe/repos/b583e0bfb9f8d42a965eb2c7eab768c1c94d6c5b'...\n"
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/source",
+          "add",
+          "."
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/source",
+          "-c",
+          "user.name=Security replay",
+          "-c",
+          "user.email=replay@example.invalid",
+          "commit",
+          "-m",
+          "Conflicting upstream"
+        ],
+        "exit": 0,
+        "stdout": "[main 20a3f23] Conflicting upstream\n 1 file changed, 1 insertion(+), 2 deletions(-)\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "update",
+          "style"
+        ],
+        "exit": 1,
+        "stdout": "Updating 0415f2e..20a3f23\n",
+        "stderr": "From file://<sandbox>/source\n * branch            main       -> FETCH_HEAD\nerror: Your local changes to the following files would be overwritten by merge:\n\trules/style.md\nPlease commit your changes or stash them before you merge.\nAborting\n"
+      },
+      {
+        "command": [
+          "git",
+          "init",
+          "-b",
+          "main",
+          "<sandbox>/tool-source"
+        ],
+        "exit": 0,
+        "stdout": "Initialized empty Git repository in /private<sandbox>/tool-source/.git/\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/tool-source",
+          "add",
+          "."
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/tool-source",
+          "-c",
+          "user.name=Security replay",
+          "-c",
+          "user.email=replay@example.invalid",
+          "commit",
+          "-m",
+          "Tool fixture"
+        ],
+        "exit": 0,
+        "stdout": "[main (root-commit) 60c5e28] Tool fixture\n 21 files changed, 508 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 LICENSE\n create mode 100644 README.md\n create mode 100644 VERSION\n create mode 100644 commands/codex-rules.sh\n create mode 100644 commands/help.sh\n create mode 100644 commands/init.sh\n create mode 100644 commands/install.sh\n create mode 100644 commands/list.sh\n create mode 100644 commands/remove.sh\n create mode 100644 commands/rename.sh\n create mode 100644 commands/update.sh\n create mode 100644 commands/upgrade.sh\n create mode 100644 commands/version.sh\n create mode 100644 docs/icon.svg\n create mode 100644 docs/index.html\n create mode 100644 docs/install.sh\n create mode 100644 docs/sitemap.xml\n create mode 100644 docs/style.css\n create mode 100755 install.sh\n create mode 100755 skill-universe\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/install.sh"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/bootstrap/.local/bin/skill-universe\nAdd to your shell profile: export PATH=\"$HOME/.local/bin:$PATH\"\n",
+        "stderr": "Cloning into '<sandbox>/bootstrap/.skill-universe/tool'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/install.sh"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "Cloning into '<sandbox>/occupied-command/.skill-universe/tool'...\nln: <sandbox>/occupied-command/.local/bin/skill-universe: File exists\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/bootstrap/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/tool-source",
+          "add",
+          "VERSION"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/tool-source",
+          "-c",
+          "user.name=Security replay",
+          "-c",
+          "user.email=replay@example.invalid",
+          "commit",
+          "-m",
+          "Tool update fixture"
+        ],
+        "exit": 0,
+        "stdout": "[main c5e8a40] Tool update fixture\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "upgrade"
+        ],
+        "exit": 0,
+        "stdout": "Updating 60c5e28..c5e8a40\nFast-forward\n VERSION | 2 +-\n 1 file changed, 1 insertion(+), 1 deletion(-)\nUpgraded skill-universe\n",
+        "stderr": "From file://<sandbox>/tool-source\n * branch            main       -> FETCH_HEAD\n"
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/skill-universe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/install.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/docs/install.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/codex-rules.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/help.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/init.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/install.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/list.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/remove.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/rename.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/update.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/upgrade.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/version.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "git version 2.54.0 (Apple Git-157)\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "jq",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "jq-1.8.1\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "linux": {
+    "reviewed_commit": "0b0b6d1b47dc631577e6aac62d5107bc5ba248f4",
+    "platform": "Linux-6.10.14-linuxkit-aarch64-with-glibc2.41",
+    "python": "3.11.14",
+    "tools": {
+      "git": "git version 2.47.3",
+      "jq": "jq-1.7"
+    },
+    "source_sha256": {
+      "skill-universe": "df952232f6c1fe9eccd8ca5f12a48c27f4c3768e11bc21bd98cc3ea852edc47a",
+      "install.sh": "64a2665f2601ebd88755748d52c02aec52e0943689d87f6446482e8b799c9e57",
+      "VERSION": "e9dd8507f4bf0c6f42458e41aea833ad0bd3f6127272335eee9bf4d58541ed67",
+      "commands/codex-rules.sh": "10ad3d448239bdb8b067b37bde4b1cefeb45453d76e3bd92bfe71a06791abd6a",
+      "commands/help.sh": "d8c974da6bff82aeb41acf70f698d1eaf6a6d991529cf79e53331f24c0ecd7bc",
+      "commands/init.sh": "cb0ecedf033c4cd01e93cd6206235b0e9b473adb0da76b1220c538d7cdd7aef3",
+      "commands/install.sh": "88be5587e85adefd196992fc29ec08bd4df9d630356b59ce14ca207e3e8c71b3",
+      "commands/list.sh": "9e6c21fa2fc8615aa2ea8f57c9180e2c50c7e0d75042510df1c868d6679bdd4d",
+      "commands/remove.sh": "2b2aea5f859e526ce18caaf02a64b8a76394ccebc1de2ae9550ff59e8f1e8957",
+      "commands/rename.sh": "1782bfc16da8f999ca9b315b5d1a11aa5f28b03e2837c82b00b35703099c04ff",
+      "commands/update.sh": "523cb3327c6fcf8141b787fc46cd04d97e33b24f05c054045d78e2a5701bd837",
+      "commands/upgrade.sh": "68aa22ce2c98eb3720ad6bb1bc7ac671a5e6c30ed4bc54916bf47f9b9580d058",
+      "commands/version.sh": "f8073966e183f2d5256310ab225cd1fcd33ebd552bfb0548bcbaaea79ff91d78",
+      "docs/install.sh": "64a2665f2601ebd88755748d52c02aec52e0943689d87f6446482e8b799c9e57",
+      "docs/index.html": "ed92966d314254571dff7ab2f90726ece7aa85335010eebdf004d9c8e6fd9c94",
+      "docs/style.css": "7a89bbd09e86a6b5dc2ba808f261611746fa19a0daa2b0b5459b14a6bdb3d93f",
+      "docs/icon.svg": "4caf6a04bceea2ed9b32a60300831df0210e4fd7a8bd8afd047fd3bc1f72ef98",
+      "docs/sitemap.xml": "7e1bee0bfcdb32c30705ec7d5a611f343263fe2af68a4b6ea688a40e890394e1"
+    },
+    "checks": [
+      {
+        "id": "C01",
+        "property": "Alias text is not evaluated as shell code",
+        "status": "PASS",
+        "evidence": {
+          "exit": 0,
+          "literal_link_created": true,
+          "shell_marker_created": false
+        }
+      },
+      {
+        "id": "C02",
+        "property": "Repository payload scripts are not executed during install",
+        "status": "PASS",
+        "evidence": "Fixture postinstall.sh was delivered without execution."
+      },
+      {
+        "id": "C03",
+        "property": "Remove cannot escape its installation directory",
+        "status": "FAIL",
+        "evidence": {
+          "exit": 0,
+          "outside_file_exists": false,
+          "alias_registered": false
+        }
+      },
+      {
+        "id": "C04",
+        "property": "Install aliases cannot escape their installation directory",
+        "status": "FAIL",
+        "evidence": {
+          "outside_symlink_created": true,
+          "location": "~/.agents/outside"
+        }
+      },
+      {
+        "id": "C05",
+        "property": "Rename preserves existing unmanaged destination files",
+        "status": "FAIL",
+        "evidence": {
+          "destination_is_symlink": true,
+          "original_contents_preserved": false
+        }
+      },
+      {
+        "id": "C06",
+        "property": "Installed repository rules resolve inside their Git checkout",
+        "status": "FAIL",
+        "evidence": {
+          "rule_resolves_to_host_file": true,
+          "file_content_exposed_as_rule": true
+        }
+      },
+      {
+        "id": "C07",
+        "property": "Normal rule removal preserves personal AGENTS.md text",
+        "status": "PASS",
+        "evidence": {
+          "block_count": 1,
+          "block_retained_until_last_rule": true,
+          "personal_text_retained": true
+        }
+      },
+      {
+        "id": "C08",
+        "property": "An incomplete managed block does not delete following personal text",
+        "status": "FAIL",
+        "evidence": {
+          "personal_text_after_missing_end_marker_retained": false
+        }
+      },
+      {
+        "id": "C09",
+        "property": "Duplicate aliases are rejected without changing the manifest",
+        "status": "PASS",
+        "evidence": {
+          "exit": 1,
+          "manifest_unchanged": true
+        }
+      },
+      {
+        "id": "C10",
+        "property": "Conflicting updates preserve local edits and manifest",
+        "status": "PASS",
+        "evidence": {
+          "exit": 1,
+          "local_edit_preserved": true,
+          "manifest_unchanged": true
+        }
+      },
+      {
+        "id": "C13",
+        "property": "Bootstrap installs the expected tool and command symlink",
+        "status": "PASS",
+        "evidence": "Ran the actual installer with Git URL rewriting to a local copy of the reviewed source; no HTTPS request."
+      },
+      {
+        "id": "C14",
+        "property": "Bootstrap preserves an existing regular command file",
+        "status": "PASS",
+        "evidence": {
+          "exit": 1,
+          "existing_file_preserved": true
+        }
+      },
+      {
+        "id": "C15",
+        "property": "Upgrade obtains the configured tool source",
+        "status": "PASS",
+        "evidence": "Actual upgrade ran against a local Git fixture; source trust remains the user responsibility."
+      },
+      {
+        "id": "C11",
+        "property": "All distributed shell files parse successfully",
+        "status": "PASS",
+        "evidence": {
+          "files_checked": 13
+        }
+      },
+      {
+        "id": "C12",
+        "property": "The Pages installer matches the root installer",
+        "status": "PASS",
+        "evidence": "Compared bytes of both distributed installer copies."
+      }
+    ],
+    "transcript": [
+      {
+        "command": [
+          "git",
+          "init",
+          "-b",
+          "main",
+          "<sandbox>/source"
+        ],
+        "exit": 0,
+        "stdout": "Initialized empty Git repository in <sandbox>/source/.git/\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/source",
+          "add",
+          "."
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/source",
+          "-c",
+          "user.name=Security replay",
+          "-c",
+          "user.email=replay@example.invalid",
+          "commit",
+          "-m",
+          "Local fixture"
+        ],
+        "exit": 0,
+        "stdout": "[main (root-commit) f4afc98] Local fixture\n 4 files changed, 7 insertions(+)\n create mode 120000 rules/host.md\n create mode 100644 rules/style.md\n create mode 100644 skills/demo/SKILL.md\n create mode 100644 skills/demo/scripts/postinstall.sh\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/literal/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--skill=demo",
+          "--alias=literal-$(touch SHELL_EXECUTED)"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/literal/.agents/skills/literal-$(touch SHELL_EXECUTED)\n",
+        "stderr": "Cloning into '<sandbox>/literal/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/payload/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--skill=demo"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/payload/.agents/skills/demo\n",
+        "stderr": "Cloning into '<sandbox>/payload/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/remove-traversal/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "remove",
+          "../../outside.txt"
+        ],
+        "exit": 0,
+        "stdout": "Removed: ../../outside.txt\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/install-traversal/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--skill=demo",
+          "--alias=../outside"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/install-traversal/.agents/skills/../outside\n",
+        "stderr": "Cloning into '<sandbox>/install-traversal/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/rename-collision/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/rename-collision/.codex/rules/style.md\n",
+        "stderr": "Cloning into '<sandbox>/rename-collision/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "rename",
+          "style",
+          "personal"
+        ],
+        "exit": 0,
+        "stdout": "Renamed: style -> personal\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/source-symlink/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=host"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/source-symlink/.codex/rules/host.md\n",
+        "stderr": "Cloning into '<sandbox>/source-symlink/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/managed-block/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/managed-block/.codex/rules/style.md\n",
+        "stderr": "Cloning into '<sandbox>/managed-block/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style",
+          "--alias=second"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/managed-block/.codex/rules/second.md\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "remove",
+          "style"
+        ],
+        "exit": 0,
+        "stdout": "Removed: style\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "remove",
+          "second"
+        ],
+        "exit": 0,
+        "stdout": "Removed: second\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/incomplete-block/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/incomplete-block/.codex/rules/style.md\n",
+        "stderr": "Cloning into '<sandbox>/incomplete-block/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "remove",
+          "style"
+        ],
+        "exit": 0,
+        "stdout": "Removed: style\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/duplicate/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--skill=demo"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/duplicate/.agents/skills/demo\n",
+        "stderr": "Cloning into '<sandbox>/duplicate/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style",
+          "--alias=demo"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "Alias already installed: demo\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/conflict/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "install",
+          "file://<sandbox>/source",
+          "--rule=style"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/conflict/.codex/rules/style.md\n",
+        "stderr": "Cloning into '<sandbox>/conflict/.skill-universe/repos/f3e1b3d498d1968d505adcd57780cc7265d38639'...\n"
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/source",
+          "add",
+          "."
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/source",
+          "-c",
+          "user.name=Security replay",
+          "-c",
+          "user.email=replay@example.invalid",
+          "commit",
+          "-m",
+          "Conflicting upstream"
+        ],
+        "exit": 0,
+        "stdout": "[main d139ffe] Conflicting upstream\n 1 file changed, 1 insertion(+), 2 deletions(-)\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "update",
+          "style"
+        ],
+        "exit": 1,
+        "stdout": "Updating f4afc98..d139ffe\n",
+        "stderr": "From file://<sandbox>/source\n * branch            main       -> FETCH_HEAD\nerror: Your local changes to the following files would be overwritten by merge:\n\trules/style.md\nPlease commit your changes or stash them before you merge.\nAborting\n"
+      },
+      {
+        "command": [
+          "git",
+          "init",
+          "-b",
+          "main",
+          "<sandbox>/tool-source"
+        ],
+        "exit": 0,
+        "stdout": "Initialized empty Git repository in <sandbox>/tool-source/.git/\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/tool-source",
+          "add",
+          "."
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/tool-source",
+          "-c",
+          "user.name=Security replay",
+          "-c",
+          "user.email=replay@example.invalid",
+          "commit",
+          "-m",
+          "Tool fixture"
+        ],
+        "exit": 0,
+        "stdout": "[main (root-commit) fb6bf09] Tool fixture\n 21 files changed, 508 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 LICENSE\n create mode 100644 README.md\n create mode 100644 VERSION\n create mode 100644 commands/codex-rules.sh\n create mode 100644 commands/help.sh\n create mode 100644 commands/init.sh\n create mode 100644 commands/install.sh\n create mode 100644 commands/list.sh\n create mode 100644 commands/remove.sh\n create mode 100644 commands/rename.sh\n create mode 100644 commands/update.sh\n create mode 100644 commands/upgrade.sh\n create mode 100644 commands/version.sh\n create mode 100644 docs/icon.svg\n create mode 100644 docs/index.html\n create mode 100644 docs/install.sh\n create mode 100644 docs/sitemap.xml\n create mode 100644 docs/style.css\n create mode 100755 install.sh\n create mode 100755 skill-universe\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/install.sh"
+        ],
+        "exit": 0,
+        "stdout": "Installed: <sandbox>/bootstrap/.local/bin/skill-universe\nAdd to your shell profile: export PATH=\"$HOME/.local/bin:$PATH\"\n",
+        "stderr": "Cloning into '<sandbox>/bootstrap/.skill-universe/tool'...\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/install.sh"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "Cloning into '<sandbox>/occupied-command/.skill-universe/tool'...\nln: failed to create symbolic link '<sandbox>/occupied-command/.local/bin/skill-universe': File exists\n"
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "init",
+          "--harness=codex"
+        ],
+        "exit": 0,
+        "stdout": "Created: <sandbox>/bootstrap/.skill-universe/manifest.json\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/tool-source",
+          "add",
+          "VERSION"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-C",
+          "<sandbox>/tool-source",
+          "-c",
+          "user.name=Security replay",
+          "-c",
+          "user.email=replay@example.invalid",
+          "commit",
+          "-m",
+          "Tool update fixture"
+        ],
+        "exit": 0,
+        "stdout": "[main 55e8155] Tool update fixture\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "<sandbox>/snapshot/skill-universe",
+          "upgrade"
+        ],
+        "exit": 0,
+        "stdout": "Updating fb6bf09..55e8155\nFast-forward\n VERSION | 2 +-\n 1 file changed, 1 insertion(+), 1 deletion(-)\nUpgraded skill-universe\n",
+        "stderr": "From file://<sandbox>/tool-source\n * branch            main       -> FETCH_HEAD\n"
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/skill-universe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/install.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/docs/install.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/codex-rules.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/help.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/init.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/install.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/list.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/remove.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/rename.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/update.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/upgrade.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "sh",
+          "-n",
+          "<sandbox>/snapshot/commands/version.sh"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "git version 2.47.3\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "jq",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "jq-1.7\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "shellcheck": {
+    "version": "0.10.0",
+    "exit": 1,
+    "diagnostics": [
+      {
+        "file": "commands/rename.sh",
+        "line": 18,
+        "endLine": 18,
+        "column": 26,
+        "endColumn": 30,
+        "level": "warning",
+        "code": 2088,
+        "message": "Tilde does not expand in quotes. Use $HOME.",
+        "fix": null
+      },
+      {
+        "file": "commands/remove.sh",
+        "line": 12,
+        "endLine": 12,
+        "column": 26,
+        "endColumn": 30,
+        "level": "warning",
+        "code": 2088,
+        "message": "Tilde does not expand in quotes. Use $HOME.",
+        "fix": null
+      },
+      {
+        "file": "commands/install.sh",
+        "line": 74,
+        "endLine": 74,
+        "column": 30,
+        "endColumn": 34,
+        "level": "warning",
+        "code": 2088,
+        "message": "Tilde does not expand in quotes. Use $HOME.",
+        "fix": null
+      },
+      {
+        "file": "commands/codex-rules.sh",
+        "line": 15,
+        "endLine": 15,
+        "column": 16,
+        "endColumn": 73,
+        "level": "info",
+        "code": 2016,
+        "message": "Expressions don't expand in single quotes, use double quotes for that.",
+        "fix": null
+      },
+      {
+        "file": "docs/install.sh",
+        "line": 10,
+        "endLine": 10,
+        "column": 8,
+        "endColumn": 75,
+        "level": "info",
+        "code": 2016,
+        "message": "Expressions don't expand in single quotes, use double quotes for that.",
+        "fix": null
+      },
+      {
+        "file": "install.sh",
+        "line": 10,
+        "endLine": 10,
+        "column": 8,
+        "endColumn": 75,
+        "level": "info",
+        "code": 2016,
+        "message": "Expressions don't expand in single quotes, use double quotes for that.",
+        "fix": null
+      }
+    ]
+  }
+}

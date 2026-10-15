@@ -58,7 +58,7 @@ skill-universe install <repo-url> --branch=<branch> --skill=<skill-name> --alias
 skill-universe install <repo-url> --rule=<rule-name> --alias=<alias>
 ```
 
-Repositories can contain `skills/<skill-name>/SKILL.md` and plain Markdown files at `rules/<rule-name>.md`. No rule frontmatter is required. Without filters, all skills and rules from the default branch are installed. Rule aliases default to filenames without `.md`; skill aliases default to directory names. Aliases are unique across both types. `--skill` and `--rule` are mutually exclusive; `--alias` requires one of them.
+Without filters, all skills and rules from the default branch are installed. Rule aliases default to filenames without `.md`; skill aliases default to directory names. Aliases are unique across both types. `--skill` and `--rule` are mutually exclusive; `--alias` requires one of them.
 
 Rules are linked into `~/.codex/rules/` and `~/.claude/rules/` for your configured harnesses. For Codex, the first rule adds an instruction to read the rules directory in `~/.codex/AGENTS.md`, between `<!-- skill-universe:rules:start -->` and `<!-- skill-universe:rules:end -->`. Removing the last rule removes only that block, preserving your other instructions. Claude loads its user rules directory directly.
 
@@ -83,3 +83,30 @@ skill-universe --help
 ```
 
 The manifest lives at `~/.skill-universe/manifest.json`; clones live in `~/.skill-universe/repos/`. Harness skill directories (`directory`), rule directories (`rules_directory`), and the Git source for `upgrade` are configurable in the manifest. Existing manifests remain supported; installing the first rule adds the new settings.
+
+## Repository structure
+
+A repository can contain skills, rules, or both:
+
+```text
+repository/
+|-- skills/
+|   |-- skill-name/
+|   |   |-- SKILL.md
+|   |   |-- references/
+|   |   `-- scripts/
+|   `-- another-skill/
+|       `-- SKILL.md
+`-- rules/
+    |-- code-style.md
+    `-- testing.md
+```
+
+- **Skills:** each skill must have `skills/<skill-name>/SKILL.md`. Supporting files and directories are optional; the entire skill directory is linked into the harness.
+- **Rules:** each rule is a plain Markdown file at `rules/<rule-name>.md`. No frontmatter is required; file contents are preserved.
+- Both `skills/` and `rules/` are optional. Only immediate skill directories and immediate `.md` rule files are discovered. A root-level `SKILL.md`, nested rules, and other rule file extensions are ignored.
+- `--skill=<skill-name>` selects a directory name; `--rule=<rule-name>` selects a filename without `.md`.
+
+## Security verification
+
+See the [current security review](docs/security/report.md) for the reviewed commit, open findings, methodology, and reproducible checks. This is a Codex-assisted review of a specific revision, not a claim that all versions or third-party skills and rules are safe.
