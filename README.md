@@ -109,4 +109,4 @@ repository/
 
 ## Security verification
 
-See the [current security review](docs/security/report.md) for the reviewed commit, open findings, methodology, and reproducible checks. This is a Codex-assisted review of a specific revision, not a claim that all versions or third-party skills and rules are safe.
+See the [current security review](docs/security/report.md) for the reviewed commit, open findings, methodology, and source-based reasoning. This is a Codex-assisted review of a specific revision, not a claim that all versions or third-party skills and rules are safe.
