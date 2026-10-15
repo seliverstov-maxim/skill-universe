@@ -1,10 +1,10 @@
 # Internal audits
 
-Each methodology has its own current report and generated result badge:
+| Methodology | Current report |
+| --- | --- |
+| [SU-SEC-1: security](methodology.md) | [Report page](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-SEC-1) · [Result data](security-report.json) |
+| [SU-DECL-1: declared behavior](declared-behavior-methodology.md) | [Report page](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-DECL-1) · [Result data](declared-behavior-report.json) |
 
-- [SU-SEC-1: source security review](security-report.md) · [Methodology](methodology.md)
-- [SU-DECL-1: declared behavior review](declared-behavior-report.md) · [Methodology](declared-behavior-methodology.md)
+These are project-generated internal assessments using the published methodologies. The static page and reusable prompt live in the repository; only the committed results, evidence and source identity change. A new assessment can target latest main; reproducing an existing result requires its exact recorded commit. The reports distinguish code review from observed behavior and record scope limitations.
 
-Passing describes the conclusions of a review at the commit recorded in its report, under the stated scope and trust assumptions. It is not proof of safety or absence of hidden behavior. CI checks report/source/badge consistency; it does not conduct the audits.
-
-Automated checks are separate from internal audits: [ClamAV malware scanning](malware-scanning.md).
+Automated checks remain separate: [ClamAV malware scanning](malware-scanning.md). Neither an internal passing result nor a clean scanner result certifies arbitrary installed instructions, every possible hidden behavior or future mutable code.

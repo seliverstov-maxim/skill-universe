@@ -1,9 +1,10 @@
 #!/bin/sh
 set -eu
-manifest="$HOME/.skill-universe/manifest.json"
+. "$(dirname "$0")/paths.sh"
+manifest="$state/manifest.json"
 work="$2"
 jq -e '.harnesses | has("codex")' "$manifest" >/dev/null || exit 0
-file="$HOME/.codex/AGENTS.md"
+file="$codex_agents"
 [ ! -L "$file" ] || { printf 'AGENTS.md must not be a symlink\n' >&2; exit 1; }
 if [ -e "$file" ]; then
     [ -f "$file" ] || exit 1
@@ -23,9 +24,9 @@ else
     [ -f "$file" ] || exit 0
     sed '/^<!-- skill-universe:rules:start -->$/,/^<!-- skill-universe:rules:end -->$/d' "$file" > "$work/agents"
 fi
-mkdir -p "$HOME/.codex"
+mkdir -p "$(dirname "$file")"
 # Stage beside the destination so replacement does not truncate the original.
-staged=$(mktemp "$HOME/.codex/.skill-universe.XXXXXX")
+staged=$(mktemp "$(dirname "$file")/.skill-universe.XXXXXX")
 trap 'rm -f -- "$staged"' 0
 if [ -f "$file" ]; then cp -p "$file" "$staged"; fi
 cat "$work/agents" > "$staged"

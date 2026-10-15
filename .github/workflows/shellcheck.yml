@@ -19,4 +19,4 @@ jobs:
         with:
           persist-credentials: false
       - name: Analyze shell sources
-        run: shellcheck --check-sourced --external-sources --source-path=SCRIPTDIR skill-universe install.sh docs/install.sh commands/*.sh
+        run: shellcheck --check-sourced --external-sources --source-path=SCRIPTDIR skill-universe install.sh docs/install.sh commands/*.sh scripts/*.sh verification/setup.sh verification/fixtures/skills/example-skill/scripts/*.sh

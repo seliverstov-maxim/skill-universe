@@ -1,0 +1,35 @@
+:root { color-scheme: light; --ink:#17231c; --muted:#637068; --line:#dce1d8; --bg:#f5f6f0; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+header,main,footer { max-width:1120px; margin:auto; padding:24px; }
+header { display:flex; justify-content:space-between; border-bottom:1px solid var(--line); font-size:13px; }
+a { color:#315c2a; text-underline-offset:3px; }
+a:focus-visible { outline:3px solid #55852b; outline-offset:4px; }
+.eyebrow { font:11px ui-monospace,monospace; letter-spacing:2px; margin-top:30px; }
+h1 { font-size:42px; line-height:1.1; letter-spacing:-1.5px; margin:20px 0; }
+h2 { font-size:23px; margin-top:36px; }
+h3 { font-size:16px; }
+.intro { max-width:850px; color:var(--muted); }
+nav { display:flex; flex-wrap:wrap; gap:12px; margin:24px 0; }
+nav a { padding:7px 13px; border:1px solid var(--line); border-radius:5px; text-decoration:none; font-size:13px; }
+.table-wrap { overflow:auto; margin:18px 0; background:white; border:1px solid var(--line); border-radius:7px; }
+table { border-collapse:collapse; width:100%; font-size:13px; }
+caption { text-align:left; padding:14px; font-weight:600; border-bottom:1px solid var(--line); }
+th,td { padding:13px 15px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left; }
+th { background:#eef1e8; font-size:12px; }
+tr:last-child td { border-bottom:0; }
+#checks td:first-child { min-width:210px; }
+#checks td:last-child { min-width:310px; }
+.status { display:inline-block; white-space:nowrap; border-radius:4px; padding:1px 8px; font-size:12px; }
+.passed,.passing { background:#e2f2d0; color:#275d22; }
+.fail,.failed,.failing { background:#fbe3dc; color:#912d1d; }
+.not-checked,.incomplete,.not-applicable { background:#eceee9; color:#5c655f; }
+code,pre { font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace; }
+pre { padding:20px; background:#17231c; color:#e3ecdd; border-radius:7px; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; }
+li { margin-bottom:10px; }
+details { padding:15px; border:1px solid var(--line); border-radius:5px; font-size:12px; }
+summary { cursor:pointer; font-weight:600; }
+#evidence { overflow-wrap:anywhere; }
+.muted,footer { color:var(--muted); font-size:12px; }
+footer { border-top:1px solid var(--line); }
+@media(max-width:650px) { h1 { font-size:32px; } header,main,footer { padding:20px; } header { gap:20px; } }
