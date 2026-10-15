@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="234" height="20" role="img" aria-label="Internal audit: Codex 2fe9b62">
+  <title>Internal source audit by Codex at 2fe9b62ee76ec29f841bbea0fd189506e4a58a21. See linked report for scope and findings.</title>
+  <rect width="234" height="20" rx="3" fill="#555"/>
+  <path fill="#007ec6" d="M87 0h144a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H87z"/>
+  <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,sans-serif" font-size="11">
+    <text x="43.5" y="14">Internal audit</text>
+    <text x="160.5" y="14">Codex 2fe9b62</text>
+  </g>
+</svg>

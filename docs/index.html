@@ -26,19 +26,14 @@
   <nav aria-label="Navigation"><a href="#install">Install</a><a href="#usage">Commands</a><a class="repo-link" href="https://github.com/seliverstov-maxim/skill-universe">GitHub <span aria-hidden="true">↗</span></a></nav>
 </header>
 <main id="main">
-  <section class="security wrap" aria-labelledby="security-title">
-    <h2 id="security-title">Security verification</h2>
-    <p><strong>Reproducible internal audit:</strong> <a href="https://github.com/seliverstov-maxim/skill-universe/blob/main/docs/security/report.md">Codex source review</a> · <a href="https://github.com/seliverstov-maxim/skill-universe/blob/main/docs/security/methodology.md">SU-SEC-1 v3 / OWASP-based methodology</a>. Covers the revision recorded in the report.</p>
-    <p><strong>External checks:</strong> OpenSSF Scorecard for repository practices · CodeQL + zizmor for GitHub Actions workflows · Gitleaks for secrets in Git history · ShellCheck for shell sources.</p>
-    <div class="security-badges">
+  <div class="audit-badges wrap" aria-label="Audit and check results">
+      <a href="https://github.com/seliverstov-maxim/skill-universe/blob/main/docs/security/report.md"><img src="security/audit.svg" alt="Internal audit by Codex; see report for reviewed commit and scope" height="20"></a>
       <a href="https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe"><img src="https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge" alt="OpenSSF Scorecard" height="20"></a>
       <a href="https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml"><img src="https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml/badge.svg" alt="CodeQL workflow status" height="20"></a>
       <a href="https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml"><img src="https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml/badge.svg" alt="ShellCheck workflow status" height="20"></a>
       <a href="https://github.com/seliverstov-maxim/skill-universe/actions/workflows/gitleaks.yml"><img src="https://github.com/seliverstov-maxim/skill-universe/actions/workflows/gitleaks.yml/badge.svg" alt="Gitleaks workflow status" height="20"></a>
       <a href="https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml"><img src="https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml/badge.svg" alt="zizmor workflow status" height="20"></a>
     </div>
-    <p class="security-note">Reviews and checks do not certify third-party skills or rules.</p>
-  </section>
   <section class="hero wrap" aria-labelledby="title">
     <div class="hero-copy">
       <p class="eyebrow"><span class="status-dot"></span> UNIX CLI / CODEX + CLAUDE</p>
@@ -86,7 +81,7 @@
     <p class="capabilities">Also supports branch and individual skill selection, custom aliases, renaming, removal, and updating the tool itself.</p>
   </section>
 </main>
-<footer class="footer wrap"><a class="brand" href="#"><span class="mark" aria-hidden="true">✳</span> skill-universe</a><p>Small Unix CLI. Plain Git.</p><a href="https://github.com/seliverstov-maxim/skill-universe/blob/main/docs/security/report.md">Security verification ↗</a><a href="https://github.com/seliverstov-maxim/skill-universe">GitHub ↗</a></footer>
+<footer class="footer wrap"><a class="brand" href="#"><span class="mark" aria-hidden="true">✳</span> skill-universe</a><p>Small Unix CLI. Plain Git.</p><a href="https://github.com/seliverstov-maxim/skill-universe">GitHub ↗</a></footer>
 <script>
 const button = document.getElementById('copy');
 if (navigator.clipboard && window.isSecureContext) {

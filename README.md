@@ -2,16 +2,10 @@
 
 A small Unix CLI for installing and updating skills and rules from Git repositories in Codex and Claude.
 
-## Security verification
-
-- **Reproducible internal audit:** [Codex source review](docs/security/report.md), following [SU-SEC-1 v3](docs/security/methodology.md), based on OWASP guidance. Covers the revision recorded in the report.
-- **External checks:** [OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe) assesses repository practices weekly; [CodeQL](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml) and zizmor scan GitHub Actions workflows. Gitleaks scans Git history for secrets; ShellCheck analyzes shell sources.
-- **Disclosure:** [Security policy](SECURITY.md). Reviews and checks do not certify third-party skills or rules.
-
+[![Internal audit](docs/security/audit.svg)](docs/security/report.md)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge)](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe)
 [![CodeQL](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/codeql.yml)
 [![ShellCheck](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/shellcheck.yml)
-
 [![Gitleaks](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/gitleaks.yml)
 [![zizmor](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml)
 

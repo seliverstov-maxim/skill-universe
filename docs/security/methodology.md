@@ -63,3 +63,7 @@ For each finding include an ID, contextual severity, actor and preconditions, so
 ## Limits
 
 Reading source can miss behavior and cannot establish the absence of every hidden feature. This procedure does not provide formal proof, independent certification, runtime or cross-platform validation, dependency auditing, or assurance about third-party instructions and future updates. If the same agent contributed code and reviewed it, disclose that relationship.
+
+## Generated badge
+
+After publishing the assessment for a committed source revision, run `python3 scripts/generate-audit-badge.py` and commit `docs/security/audit.svg` with the report. The badge identifies the reviewed commit and links to the report; it does not certify safety or indicate scanner results. Exclude the report and its generated badge from the reviewed source inventory to avoid circular hashes. Include the generator and consistency workflow in the review. CI checks inventory completeness, source hashes and badge freshness; it does not perform the source audit.
