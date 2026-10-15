@@ -1,6 +1,6 @@
 # Security review methodology
 
-Procedure: **SU-SEC-1, version 4**. A project-maintained internal assessment with two distinct kinds of evidence: source review and bounded observations of actual behavior. It is not an OWASP audit, certification, formal verification or an external professional audit.
+Procedure: **SU-SEC-1, version 5**. A project-maintained internal assessment with two distinct kinds of evidence: source review and bounded observations of actual behavior. It is not an OWASP audit, certification, formal verification or an external professional audit.
 
 Basis: [OWASP Secure Code Review](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html) and [OWASP Threat Modeling](https://community.owasp.org/Threat_Modeling). We adapted their input/data-flow/trust-boundary principles to this small CLI; we do not claim complete compliance with every OWASP recommendation.
 
@@ -23,7 +23,7 @@ Basis: [OWASP Secure Code Review](https://cheatsheetseries.owasp.org/cheatsheets
 | R03 | Are names and registered item operations confined to their intended paths? Trace validation/lookups and try traversal aliases, missing selectors and substituted links. |
 | R04 | Are source symlinks rejected before becoming visible? Inspect filesystem and candidate-tree validation; try symlink-bearing install and update fixtures. |
 | R05 | Are unrelated files preserved? Inspect overwrite/backup controls; observe occupied destinations, rename/remove and refusal of substituted paths. |
-| R06 | Are personal instructions preserved? Inspect managed-block handling; observe addition, final removal, malformed markers, direct AGENTS.md symlinks and rollback. |
+| R06 | Are personal instruction and configuration files untouched? Inspect printed Codex setup and all mutation paths; compare personal AGENTS.md/config.toml bytes across init and item lifecycle, including read-only files, symlinks, obsolete markers and absent files. Observe ordinary installation rollback separately. |
 | R07 | Do updates preserve local work and leave documented recoverable state? Inspect merge flags/locks/checkpoints; observe shared updates, conflicts, ignored-file protection and retained recovery information. |
 | R08 | Are executable trust boundaries accurately disclosed? Trace bootstrap/upgrade sources and the public link; observe fixture bootstrap and upgrade, clearly distinguishing local transport fixtures from live public delivery. |
 

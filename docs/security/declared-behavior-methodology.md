@@ -1,6 +1,6 @@
 # Declared behavior review
 
-Procedure: **SU-DECL-1, version 2**. A project-maintained comparison of implemented and observed behavior with public requirements, including a search for undeclared effects. It is not external certification or proof that no hidden behavior exists.
+Procedure: **SU-DECL-1, version 3**. A project-maintained comparison of implemented and observed behavior with public requirements, including a search for undeclared effects. It is not external certification or proof that no hidden behavior exists.
 
 Use the same frozen commit, fresh source-review context, complete source inventory, bounded manual observations, result rules and four output exclusions as [SU-SEC-1](methodology.md). Declarations are this commit's README, CLI help, website and public verification/workflow documentation. Conflicting or ambiguous claims are findings, not permission to select the convenient interpretation.
 
@@ -13,7 +13,7 @@ Use the same frozen commit, fresh source-review context, complete source invento
 | Q03 | Does installation follow the documented structure, branch/selector/alias rules and symlink delivery behavior? |
 | Q04 | Do list, rename and remove act on registered items and preserve unrelated files and personal instructions as promised? |
 | Q05 | Do update and upgrade use the declared sources/sharing behavior, preserve local edits and follow the documented merge restrictions? |
-| Q06 | Do file destinations, AGENTS.md edits, caches, locks, backups and recovery match declared effects and limits, including the exercised failure scenarios? |
+| Q06 | Do file destinations, manual Codex setup instructions, caches, locks, backups and recovery match declared effects and limits, without editing personal instruction/configuration files, including the exercised failure scenarios? |
 | Q07 | Are CLI/installer network operations limited to declared purposes and user-selected sources, without identified telemetry, rankings, catalogs or background requests? |
 | Q08 | Does distribution avoid executing skill/rule payloads and correctly disclose executable bootstrap/upgrade and consuming-agent trust? |
 | Q09 | Do dependencies, platform scope, permissions and credential handling match the declarations, with no identified extra runtime service or privilege requirement? |
