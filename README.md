@@ -1,6 +1,6 @@
 # Skill Universe
 
-A small Unix CLI for installing and updating skills and rules from Git repositories in Codex and Claude.
+A Unix CLI for installing and updating skills and rules from Git repositories for Codex and Claude. No telemetry or central catalog.
 
 [![SU-SEC-1](docs/security/security-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-SEC-1)
 [![SU-DECL-1](docs/security/declared-behavior-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-DECL-1)
@@ -11,24 +11,15 @@ A small Unix CLI for installing and updating skills and rules from Git repositor
 [![zizmor](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/zizmor.yml)
 [![ClamAV](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/clamav.yml/badge.svg)](https://github.com/seliverstov-maxim/skill-universe/actions/workflows/clamav.yml)
 
-## Why
-
-- A simple distribution tool you can read and review in full.
-- No telemetry, rankings, external catalogs, or background network requests.
-- Plain Git for fetching skills and updating the tool itself.
-- One checkout for installation and local skill development through symlinks.
-
 ## Installation
 
-Dependencies: a Unix shell, Git, and `jq`. Target platforms for the PoC are macOS and Linux.
-
-Run:
+For macOS and Linux. Requires a Unix shell, Git, and `jq`.
 
 ```sh
 curl -fsSL https://seliverstov-maxim.github.io/skill-universe/install.sh | sh
 ```
 
-The installer clones the tool into `~/.skill-universe/tool/` and creates a command symlink in `~/.local/bin/`. Installer contents:
+Clones into `~/.skill-universe/tool/` and links the command in `~/.local/bin/`. The installer prints PATH instructions. Its full contents:
 
 ```sh
 #!/bin/sh
@@ -54,23 +45,19 @@ printf 'Installed: %s/skill-universe\n' "$bin"
 printf 'Add this directory to your PATH: %s\n' "$bin"
 ```
 
-Check that the command is available:
-
 ```sh
 skill-universe --version
 ```
 
-`init` sets the self-update source to `https://github.com/seliverstov-maxim/skill-universe.git`, branch `main`. No manual setup is needed for `upgrade`.
-
 ## Usage
 
-Configure your chosen harnesses:
+Choose Codex, Claude, or both:
 
 ```sh
 skill-universe init --harness=codex,claude
 ```
 
-Install all skills and rules from a repository, or select one item, a branch, and an alias:
+Install a repository, or select a skill or rule:
 
 ```sh
 skill-universe install <repo-url>
@@ -78,11 +65,9 @@ skill-universe install <repo-url> --branch=<branch> --skill=<skill-name> --alias
 skill-universe install <repo-url> --rule=<rule-name> --alias=<alias>
 ```
 
-Without filters, all skills and rules from the default branch are installed. Rule aliases default to filenames without `.md`; skill aliases default to directory names. Aliases are unique across both types. Skill names, rule names, and aliases may use ASCII letters, digits, `.`, `_`, and `-`; `.` and `..` are rejected. `--skill` and `--rule` are mutually exclusive; `--alias` requires one of them.
+Without selectors, installs all skills and rules from the default branch. Aliases default to skill directory names or rule filenames without `.md` and must be unique across both types. Use `--alias` to resolve duplicates.
 
-Rules are linked into `~/.codex/rules/` and `~/.claude/rules/` for your configured harnesses. For Codex, the first rule adds an instruction to read the rules directory in `~/.codex/AGENTS.md`, between `<!-- skill-universe:rules:start -->` and `<!-- skill-universe:rules:end -->`. Removing the last rule removes only that block, preserving your other instructions. Claude loads its user rules directory directly.
-
-Manage installed skills and rules:
+Names and aliases accept ASCII letters, digits, `.`, `_`, and `-`, except `.` and `..`. `--skill` and `--rule` cannot be combined. `--alias` requires one of them.
 
 ```sh
 skill-universe list
@@ -90,69 +75,65 @@ skill-universe rename <alias> <new-alias>
 skill-universe update <alias>
 skill-universe update all
 skill-universe remove <alias>
-```
-
-When skills and rules share a checkout, updating one affects all items linked to it. Local changes are allowed; updates use a fast-forward merge with automatic stashing disabled, refuse to overwrite ignored local files, and never reset the checkout. A failed or interrupted Git merge leaves recovery information as described below.
-
-Update the tool and view help:
-
-```sh
 skill-universe upgrade
-skill-universe --version
 skill-universe --help
 ```
 
-The manifest lives at `~/.skill-universe/manifest.json`; clones live in `~/.skill-universe/repos/`. Harness skill directories (`directory`), rule directories (`rules_directory`), and the Git source for `upgrade` are configurable in the manifest. Existing manifests remain supported; installing the first rule adds the new settings.
+Items with the same repository URL and branch share a checkout. Updating one updates them all. Local edits are allowed; updates require a fast-forward, disable automatic stashing, and refuse to overwrite ignored files. Failed merges retain recovery records and a lock; see below.
+
+`upgrade` updates the tool from `https://github.com/seliverstov-maxim/skill-universe.git`, branch `main`, by default.
+
+## Files and configuration
+
+- Manifest: `~/.skill-universe/manifest.json`.
+- Repository checkouts: `~/.skill-universe/repos/`.
+- Skills: `~/.agents/skills/` for Codex; `~/.claude/skills/` for Claude.
+- Rules: `~/.codex/rules/` for Codex; `~/.claude/rules/` for Claude.
+
+Skills and rules are symlinked into the configured harness directories. For Codex, installing the first rule adds a block in `~/.codex/AGENTS.md` instructing it to read the rules directory. The block is marked with `<!-- skill-universe:rules:start -->` and `<!-- skill-universe:rules:end -->`. Removing the last rule removes that block and leaves personal instructions intact. Claude reads its user rules directory directly.
+
+Edit `directory`, `rules_directory`, or the `upgrade` Git source in the manifest to change them. Older manifests gain rule settings when the first rule is installed.
+
+| Environment variable | Purpose / default |
+| --- | --- |
+| `SKILL_UNIVERSE_HOME` | State, manifest, cache and tool checkout: `~/.skill-universe`. |
+| `SKILL_UNIVERSE_BIN_DIR` | Installer command directory: `~/.local/bin`. |
+| `SKILL_UNIVERSE_CODEX_AGENTS_FILE` | Codex instruction file: `~/.codex/AGENTS.md`. |
+| `SKILL_UNIVERSE_CODEX_SKILLS_DIR` / `SKILL_UNIVERSE_CODEX_RULES_DIR` | Codex paths stored by `init`. |
+| `SKILL_UNIVERSE_CLAUDE_SKILLS_DIR` / `SKILL_UNIVERSE_CLAUDE_RULES_DIR` | Claude paths stored by `init`. |
+
+State, installer and AGENTS.md overrides must be absolute paths. Harness paths may be absolute or start with `~/`. Harness environment overrides apply only during `init`; edit the manifest for an existing installation. Keep state and AGENTS.md overrides consistent across commands.
 
 ## Repository structure
-
-A repository can contain skills, rules, or both:
 
 ```text
 repository/
 |-- skills/
-|   |-- skill-name/
-|   |   |-- SKILL.md
-|   |   |-- references/
-|   |   `-- scripts/
-|   `-- another-skill/
+|   `-- skill-name/
 |       `-- SKILL.md
 `-- rules/
-    |-- code-style.md
-    `-- testing.md
+    `-- rule-name.md
 ```
 
-- **Skills:** each skill must have `skills/<skill-name>/SKILL.md`. Supporting files and directories are optional; the entire skill directory is linked into the harness.
-- **Rules:** each rule is a plain Markdown file at `rules/<rule-name>.md`. No frontmatter is required; file contents are preserved.
-- Both `skills/` and `rules/` are optional. Only immediate skill directories and immediate `.md` rule files are discovered. A root-level `SKILL.md`, nested rules, and other rule file extensions are ignored.
-- Symbolic links anywhere under `skills/` or `rules/` are rejected, including links inside skill resources and links used as the top-level directories. Updates validate the incoming Git tree before applying it.
-- `--skill=<skill-name>` selects a directory name; `--rule=<rule-name>` selects a filename without `.md`.
+- A skill requires `skills/<skill-name>/SKILL.md`. The entire directory is linked, including supporting files.
+- A rule is `rules/<rule-name>.md`. No frontmatter is required; contents are preserved.
+- Either directory may be omitted. Discovery covers immediate skill directories and immediate `.md` rule files. Root-level `SKILL.md`, nested rules and other rule extensions are ignored.
+- Symlinks anywhere under `skills/` or `rules/`, including those directories themselves, are rejected. Updates check the incoming Git tree before applying it.
+- `--skill` selects a directory name; `--rule` selects a filename without `.md`.
 
 ## File safety and recovery
 
-Install and rename reject occupied destinations, including directories and dangling links. Remove and rename require a registered alias and its original installation symlink; a file or link you substituted is left alone. A malformed managed block or a symlink at `~/.codex/AGENTS.md` causes an error.
+Install and rename reject occupied destinations, including dangling links. Rename and remove require the registered installation symlink; substituted files or links are left alone. A malformed managed block or a symlink at the configured Codex AGENTS.md path causes an error.
 
-Commands that change state share a lock at `~/.skill-universe/lock/`. Links, the manifest, and AGENTS.md have backups in a private `~/.skill-universe/transaction.*` directory. Ordinary errors and handled signals trigger rollback of file changes. Newly created empty directories and cached clones can remain.
+Mutating commands use `~/.skill-universe/lock/`. Backups of links, the manifest and AGENTS.md are stored in `~/.skill-universe/transaction.*`. Ordinary errors and handled signals trigger file rollback; cached clones and newly created empty directories can remain.
 
-Git changes are not automatically reset. If a merge/pull fails or is interrupted, the command retains its lock and transaction directory for inspection, even for an ordinary Git conflict. `update all` commits progress separately for each checkout; earlier successful updates remain applied.
+Git changes are never reset automatically. Failed or interrupted merges retain the lock and transaction directory. `update all` saves progress per checkout; earlier successful updates remain applied.
 
-After forced termination, power loss, a failed Git operation, or failed rollback:
+If a lock remains after a failed merge, forced termination, power loss or failed rollback:
 
-1. Confirm that no Skill Universe or related Git operation is still running. Do not remove an active command's lock.
-2. Inspect the retained transaction directory. Each `entry.*` contains `path`, an optional `original` backup, and `ready` when the backup is complete. `git-pending`, when present, identifies the Git operation that needs inspection. Entries without `ready` are incomplete backups and must not be used for restoration.
-3. For interrupted link operations, reconcile recorded paths with the backups and manifest. For a Git operation, inspect its checkout and local changes before deciding whether to finish or undo it. Align all manifest entries sharing that URL and branch with the resulting checkout HEAD. Do not blindly reset a development checkout or restore an older manifest over a completed update.
-4. Once files and state agree, remove the recovered transaction directory and the empty lock directory. Commands can then run again.
+1. Confirm no related command or Git operation is running before removing its lock.
+2. Inspect the retained transaction directory. Each `entry.*` records a `path`, an optional `original` backup, and a `ready` marker. Only entries with `ready` have complete backups. `git-pending` identifies a Git operation requiring inspection.
+3. Reconcile links, personal files, backups and the manifest. Inspect Git changes before finishing or undoing them. Align all manifest entries sharing the repository URL and branch with the resulting HEAD. Do not blindly reset a checkout or restore an older manifest over a completed update.
+4. Once state agrees, remove the recovered transaction directory and empty lock directory.
 
-This provides rollback and recoverable state, not an atomic transaction across Git, multiple filesystems, or power failure. Only install repositories whose instructions you trust; the tool does not sandbox skills or rules.
-
-## Configurable locations
-
-| Environment variable | Purpose |
-| --- | --- |
-| `SKILL_UNIVERSE_HOME` | State, manifest, repository cache and tool checkout; default `~/.skill-universe`. |
-| `SKILL_UNIVERSE_BIN_DIR` | Installer command directory; default `~/.local/bin`. |
-| `SKILL_UNIVERSE_CODEX_AGENTS_FILE` | Managed Codex instruction file; default `~/.codex/AGENTS.md`. |
-| `SKILL_UNIVERSE_CODEX_SKILLS_DIR` / `SKILL_UNIVERSE_CODEX_RULES_DIR` | Codex paths stored by `init`. |
-| `SKILL_UNIVERSE_CLAUDE_SKILLS_DIR` / `SKILL_UNIVERSE_CLAUDE_RULES_DIR` | Claude paths stored by `init`. |
-
-State, installer and AGENTS.md overrides must be absolute paths. Harness paths may be absolute or start with `~/`; their environment overrides apply when creating a manifest. For an existing manifest, edit its `directory` and `rules_directory` values. Keep the state and AGENTS.md overrides consistent across commands. These settings do not isolate code execution: use the [verification environment](verification/README.md) for untrusted execution.
+Rollback does not make Git and file changes atomic across filesystems or power loss. The tool does not sandbox skills or rules; install only repositories whose instructions you trust. Path overrides do not isolate execution. Use the [disposable verification environment](verification/README.md) when checking untrusted code.
