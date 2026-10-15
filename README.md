@@ -1,8 +1,6 @@
 # Skill Universe
 
-Install and update skills and rules from Git repositories for Codex and Claude.
-
-Unix CLI. Uses Git for downloads and updates. No telemetry or background processes.
+A Unix CLI for installing and updating skills and rules from Git repositories for Codex and Claude. No telemetry or central catalog.
 
 [![SU-SEC-1](docs/security/security-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-SEC-1)
 [![SU-DECL-1](docs/security/declared-behavior-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-DECL-1)
@@ -81,7 +79,7 @@ skill-universe upgrade
 skill-universe --help
 ```
 
-Items with the same repository URL and branch share a checkout. Updating one updates them all. Local edits are allowed; updates require a fast-forward, disable automatic stashing, and refuse to overwrite ignored files. Failed Git operations retain recovery records and a lock; see below.
+Items with the same repository URL and branch share a checkout. Updating one updates them all. Local edits are allowed; updates require a fast-forward, disable automatic stashing, and refuse to overwrite ignored files. Failed merges retain recovery records and a lock; see below.
 
 `upgrade` updates the tool from `https://github.com/seliverstov-maxim/skill-universe.git`, branch `main`, by default.
 
@@ -129,9 +127,9 @@ Install and rename reject occupied destinations, including dangling links. Renam
 
 Mutating commands use `~/.skill-universe/lock/`. Backups of links, the manifest and AGENTS.md are stored in `~/.skill-universe/transaction.*`. Ordinary errors and handled signals trigger file rollback; cached clones and newly created empty directories can remain.
 
-Git changes are never reset automatically. Failed or interrupted Git operations retain the lock and transaction directory. `update all` saves progress per checkout; earlier successful updates remain applied.
+Git changes are never reset automatically. Failed or interrupted merges retain the lock and transaction directory. `update all` saves progress per checkout; earlier successful updates remain applied.
 
-After forced termination, power loss, a failed Git operation or failed rollback:
+If a lock remains after a failed merge, forced termination, power loss or failed rollback:
 
 1. Confirm no related command or Git operation is running before removing its lock.
 2. Inspect the retained transaction directory. Each `entry.*` records a `path`, an optional `original` backup, and a `ready` marker. Only entries with `ready` have complete backups. `git-pending` identifies a Git operation requiring inspection.
