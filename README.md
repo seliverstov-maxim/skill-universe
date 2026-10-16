@@ -4,6 +4,8 @@ A Unix CLI for installing and updating skills and rules from Git repositories fo
 
 Release: **[v2.0.00](https://github.com/seliverstov-maxim/skill-universe/tree/v2.0.00)**. Incompatible with version 1; start with a fresh manifest using `init`.
 
+Contributions go to `develop`; installation and tool upgrades use released `main`. See [contributing](CONTRIBUTING.md) and the [maintainer release flow](RELEASING.md). Audit reports identify their reviewed release source, not unreleased changes on `develop`.
+
 [![SU-SEC-1](docs/security/security-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-SEC-1)
 [![SU-DECL-1](docs/security/declared-behavior-badge.svg)](https://seliverstov-maxim.github.io/skill-universe/security/report.html?method=SU-DECL-1)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seliverstov-maxim/skill-universe/badge)](https://scorecard.dev/viewer/?uri=github.com/seliverstov-maxim/skill-universe)
