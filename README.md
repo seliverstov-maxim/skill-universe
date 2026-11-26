@@ -2,7 +2,7 @@
 
 A Unix CLI for installing and updating skills and rules from Git repositories for Codex and Claude. No telemetry or central catalog.
 
-Release: **[v2.0.00](https://github.com/seliverstov-maxim/skill-universe/tree/v2.0.00)**. Incompatible with version 1; start with a fresh manifest using `init`.
+Release: **[v2.0.01](https://github.com/seliverstov-maxim/skill-universe/tree/v2.0.01)**. Incompatible with version 1; start with a fresh manifest using `init`.
 
 Contributions go to `develop`; installation and tool upgrades use released `main`. See [contributing](CONTRIBUTING.md) and the [maintainer release flow](RELEASING.md). Audit reports identify their reviewed release source, not unreleased changes on `develop`.
 
