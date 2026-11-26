@@ -85,7 +85,7 @@ skill-universe upgrade
 skill-universe --help
 ```
 
-Items with the same repository URL and branch share a checkout. Updating one updates them all. Local edits are allowed; updates require a fast-forward, disable automatic stashing, and refuse to overwrite ignored files. Failed merges retain recovery records and a lock; see below.
+Items with the same repository URL and branch share a checkout. Updating one updates them all. Local edits are allowed; updates require a fast-forward, disable automatic stashing, and refuse to overwrite ignored files.
 
 `upgrade` updates the tool from `https://github.com/seliverstov-maxim/skill-universe.git`, branch `main`, by default.
 
@@ -110,7 +110,7 @@ Edit `directory`, `rules_directory`, or the `upgrade` Git source in the manifest
 
 State and installer overrides must be absolute paths. Harness paths may be absolute or start with `~/`. Harness environment overrides apply only during `init`; edit the manifest for an existing installation. Keep the state override consistent across commands.
 
-## Repository structure
+## Skill and rule repository structure
 
 ```text
 repository/
@@ -126,20 +126,3 @@ repository/
 - Either directory may be omitted. Discovery covers immediate skill directories and immediate `.md` rule files. Root-level `SKILL.md`, nested rules and other rule extensions are ignored.
 - Symlinks anywhere under `skills/` or `rules/`, including those directories themselves, are rejected. Updates check the incoming Git tree before applying it.
 - `--skill` selects a directory name; `--rule` selects a filename without `.md`.
-
-## File safety and recovery
-
-Install and rename reject occupied destinations, including dangling links. Rename and remove require the registered installation symlink; substituted files or links are left alone.
-
-Mutating commands use `~/.skill-universe/lock/`. Backups of links and the manifest are stored in `~/.skill-universe/transaction.*`. Ordinary errors and handled signals trigger file rollback; cached clones and newly created empty directories can remain.
-
-Git changes are never reset automatically. Failed or interrupted merges retain the lock and transaction directory. `update all` saves progress per checkout; earlier successful updates remain applied.
-
-If a lock remains after a failed merge, forced termination, power loss or failed rollback:
-
-1. Confirm no related command or Git operation is running before removing its lock.
-2. Inspect the retained transaction directory. Each `entry.*` records a `path`, an optional `original` backup, and a `ready` marker. Only entries with `ready` have complete backups. `git-pending` identifies a Git operation requiring inspection.
-3. Reconcile links, backups and the manifest. Inspect Git changes before finishing or undoing them. Align all manifest entries sharing the repository URL and branch with the resulting HEAD. Do not blindly reset a checkout or restore an older manifest over a completed update.
-4. Once state agrees, remove the recovered transaction directory and empty lock directory.
-
-Rollback does not make Git and file changes atomic across filesystems or power loss. The tool does not sandbox skills or rules; install only repositories whose instructions you trust. Path overrides do not isolate execution. Use the [disposable verification environment](verification/README.md) when checking untrusted code.
