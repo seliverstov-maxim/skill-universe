@@ -21,4 +21,13 @@ The container image is pinned, but package repository updates can change depende
 
 Inside the container, run `sh /source/verification/setup.sh`, then work through [the scenarios](scenarios.md) and record each observation in `/evidence`. Fixtures stay in `/work` and disappear when the container exits. Keep the state and harness environment overrides shown in the Dockerfile; do not replace the host's HOME. You can choose another evidence directory through `SKILL_UNIVERSE_VERIFY_DIR` when preparing a new snapshot.
 
+After Codex init, set its skill destination inside the disposable workspace before installing fixtures:
+
+```sh
+jq '.harnesses.codex.directory = "/work/codex/skills"' /work/state/manifest.json > /work/manifest.json
+mv /work/manifest.json /work/state/manifest.json
+```
+
+`SU_CODEX_HOME` controls rules and `AGENTS.md`; the default skill location remains `~/.agents/skills`. Codex init should append its marked block while preserving the fixture sentinel. Later commands must leave the resulting instruction bytes unchanged; `config.toml` must always stay unchanged.
+
 Check the host before/after if you claim host-file preservation; a read-only container mount alone is a boundary, not an observed audit of every host file. Do not upload private repositories, real credentials, internal conversation or machine paths into public reports.

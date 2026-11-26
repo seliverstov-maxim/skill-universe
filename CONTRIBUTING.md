@@ -13,4 +13,6 @@ The allowed implementation stack is listed in [AGENTS.md](AGENTS.md#allowed-stac
 
 Required CI checks must pass before merging. Automated checks do not replace review. Report vulnerabilities using the process in [SECURITY.md](SECURITY.md).
 
+Environment defaults live in `env.sh`. After changing it or `scripts/install-body.sh`, run `sh scripts/generate-installer.sh` and synchronize the installer example in README. CI checks that both standalone installer copies match their sources.
+
 The reports and badges retained on `develop` describe their recorded release source, not subsequent unreleased changes. Published reports on the website describe the released `main` source recorded in each report.

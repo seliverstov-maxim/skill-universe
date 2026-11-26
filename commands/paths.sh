@@ -1,6 +1,6 @@
 #!/bin/sh
-# User-controlled locations; defaults remain unchanged.
-state=${SKILL_UNIVERSE_HOME:-"$HOME/.skill-universe"}
+. "$(dirname "$0")/../env.sh"
+state=$SKILL_UNIVERSE_HOME
 case "$state" in
     /*) ;;
     *) printf 'Expected an absolute path: %s\n' "$state" >&2; exit 1 ;;
