@@ -18,5 +18,16 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Require release promotion from develop
+        if: github.event_name == 'pull_request'
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+        shell: sh
+        run: |
+          if [ "$HEAD_BRANCH" != develop ] || [ "$HEAD_REPOSITORY" != "$GITHUB_REPOSITORY" ]; then
+            printf '%s\n' 'Ordinary contributions target develop. Release pull requests to main must come from this repository develop branch.' >&2
+            exit 1
+          fi
       - name: Check report coverage and generated badge
         run: sh scripts/generate-audit-badges.sh --check
