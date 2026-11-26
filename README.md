@@ -113,7 +113,7 @@ Items with the same repository URL and branch share a checkout. Updating one upd
 - Skills: `~/.agents/skills/` for Codex; `~/.claude/skills/` for Claude.
 - Rules: `~/.codex/rules/` for Codex; `~/.claude/rules/` for Claude.
 
-Skills and rules are symlinked into the configured harness directories. Codex `init` connects rules through a `skill-universe:rules` block in `SU_CODEX_HOME/AGENTS.md`, creating the file if needed. A matching block is left unchanged; malformed or different existing blocks, instruction symlinks and a nonempty `AGENTS.override.md` are refused. Later install, update, rename and remove commands do not edit personal instructions or configuration. Claude reads its user rules directory directly.
+Skills and rules are symlinked into the configured harness directories. Codex `init` connects rules through a `skill-universe:rules` block in `SU_CODEX_HOME/AGENTS.md`, creating the file if needed and preserving existing personal text. Later install, update, rename and remove commands do not edit personal instructions or configuration. Claude reads its user rules directory directly.
 
 Edit `directory`, `rules_directory`, or the `upgrade` Git source in the manifest to change them. If you change the Codex rules directory, update its instruction block too.
 
