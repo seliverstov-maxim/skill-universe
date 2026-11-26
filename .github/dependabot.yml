@@ -3,6 +3,10 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     target-branch: develop
+    groups:
+      codeql:
+        patterns:
+          - "github/codeql-action*"
     cooldown:
       default-days: 7
     schedule:
